@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title>{{title}}</title>
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/bootstrap.css">
+	<script src="/js/bootstrap.js"></script>
+	<script src="/js/jQuery.js"></script>
+	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
+
+		{{> _navbar }}
+
+
+	<div class="container-fluid main-body">
+		{{{body}}}
+	</div>
+	{{> _footer }}
+</body>
+<script>
+	$('.main-body').css('min-height',$(document).height()-300+'px');
+	
+</script>
+</html>

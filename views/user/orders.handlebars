@@ -1,0 +1,71 @@
+<div class='row'>
+  <div class="col align-self-center" style="padding: 40px;">
+      
+        <div class="col-sm-12 " >
+            <h6>Total Orders: {{totalOrders}}</h6>
+            <h6>Total Spent: ${{totalSpent}}</h6>
+        </div>
+        <table id="orders" class="table" style="border-radius:0; background-color:white; color:black;">
+            <thead>
+                <tr>
+                    <th scope="col" class="" style="width:100px;">ID</th>
+                <th scope="col" class="" style="width:350px;">Products</th>
+                   
+         
+                    <th scope="col" class="" style="">Address</th>
+                    <th scope="col" class="">Order Date</th>
+                     <th scope="col" class="">Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each orders}}
+                <tr>
+                    <td class="" style="width:5%;">{{this.dataValues.order_id}}</td>
+                    <td class="" >{{this.dataValues.order_products}}</td>
+                    <td class="account-table-td">{{this.dataValues.order_address}}</td>
+                    <td class="account-table-td">{{this.dataValues.order_date}}</td>
+                     <td class="account-table-td">${{this.dataValues.order_price}}</td>
+                    
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+<script>
+    function setProfilePic()
+    {
+        $.ajax({
+            type:'GET',
+            url:'/api/profile/picture',
+            contentType:'application/json',
+            success:function(data)
+            {   
+               if(data.status == 'success')
+               {    
+                   if(data.pic !== '' && data.pic !== null && data.pic !== 'null')
+                   {
+                       $('#profileimage').attr('src','/uploads/'+data.pic);
+                   }
+               }
+            }
+        })
+    }
+    setProfilePic();
+    function setCartProductsCount(){
+        $.ajax({
+            type:'POST',
+            url:'/api/product/get-cart-products',
+            contentType:'application/json',
+            success:function(data)
+            {
+               $('#cart-badge').text(data.length);
+            }
+        })
+    }
+    setCartProductsCount();
+</script>

@@ -1,0 +1,33 @@
+{
+  "name": "vidjot",
+  "version": "1.0.0",
+  "description": "Video Jotter",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [],
+  "author": "Chew Phuay Hern",
+  "license": "ISC",
+  "dependencies": {
+    "@handlebars/allow-prototype-access": "^1.0.5",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.18.3",
+    "check-password-strength": "^2.0.3",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.16.4",
+    "express-fileupload": "^1.2.1",
+    "express-handlebars": "^3.1.0",
+    "express-mysql-session": "^2.1.7",
+    "express-session": "^1.15.6",
+    "flash-messenger": "^1.1.1",
+    "method-override": "^3.0.0",
+    "multer": "^1.4.2",
+    "mysql2": "^2.3.2",
+    "nodemailer": "^6.6.2",
+    "sequelize": "^6.7.0",
+    "stripe": "^8.167.0",
+    "uniqid": "^5.3.0"
+  }
+}

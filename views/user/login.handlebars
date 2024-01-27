@@ -1,0 +1,203 @@
+<div id="1" class="row">
+	<div class="col-md-6 mx-auto">
+		<div class="card card-body">
+
+			<h3 class="text-center"> Login</h3>
+			<div id="alert" class='alert'></div>
+			{{#if fail}}
+			<div class="alert alert-danger">{{msg}}</div>
+			{{/if}}
+			{{#if success}}
+			<div class="alert alert-success">{{msg}}</div>
+			{{/if}}
+			<form id="form" method="post" action="/api/login">
+				<br>
+				<center>
+					<div class="form-group">
+
+						<label for="email" style="float:left; margin-right:-100px; width:100px; margin-left:50px;">
+							Email: </label>
+						<span style="display: block; overflow: hidden; width:49%; padding-left:1%;">
+							<input type="email" name="email" class="form-control" style="width:100%;" required>
+						</span>
+					</div>
+					<div class="form-group">
+						<label for="password"
+							style="float:left; margin-left:13px;; margin-right:-150px; width:200px;">Password: </label>
+
+						<span style="display: block; overflow:hidden; width:49%; padding-left:-10%;">
+							<input type="password" name="password" class="form-control" required>
+						</span>
+
+
+					</div>
+				</center>
+				<br>
+				<center>
+					<button type="submit" class="btn btn-primary" style="width:40%;">Login</button>
+				</center>
+			</form>
+			<br>
+			<center>
+				<span>Do not have an account? <a href="/register">Register Now</a></span> <br> <br>
+				<span style=""><a href="/forgot-password">Forgot Password</a></span> <br>
+			</center>
+		</div>
+	</div>
+</div>
+<div id="2" style="display: none;" class="row">
+	<div class="col-md-6 mx-auto">
+		<div class="card card-body">
+
+			<h3 class="text-center"> VERIFY OTP</h3>
+			<p style="text-align: center;">An OTP Is Sent To Your Email Account Please Enter OTP TO Login To Your
+				Account.... </p>
+			<div id="lert" class='alert '></div>
+			
+			
+			
+			
+			
+			
+
+			
+				<br>
+				<center>
+
+					<div class="form-group">
+						<label for="password"
+							style="float:left; margin-left:13px;; margin-right:-150px; width:200px;">Enter Code:
+						</label>
+
+
+						<span style="display: block; overflow:hidden; width:49%; padding-left:-10%;">
+							<input type="text" id="pak"  class="form-control" required>
+						</span>
+
+
+					</div>
+				</center>
+				<br>
+				<center>
+					<button onclick="verifyotp()" class="btn btn-primary" style="width:40%;">Verify</button>
+				</center>
+	
+			
+
+		</div>
+	</div>
+</div>
+
+
+<script>
+	var RandomNumber = 0;
+     window.onload= function () {
+
+		  
+ document.getElementById('togglee').style.visibility = 'hidden';
+	  }
+	  
+
+	function showMsg(type, msg) {
+		$('#alert').removeClass('alert-success');
+		$('#alert').removeClass('alert-danger');
+
+		if (type == 'success') {
+			$('#alert').addClass('alert-success');
+		}
+		else {
+			$('#alert').addClass('alert-danger');
+		}
+
+		$('#alert').text(msg);
+	}
+
+	document.getElementById('form').addEventListener('submit', function (e) {
+		console.log("error");
+		e.preventDefault();
+		RandomNumber = Math.floor(5000 + Math.random() * 100000);
+
+		let postData = {
+			email: $('input[name="email"]').val(),
+			password: $('input[name="password"]').val(),
+			randomnumber: RandomNumber
+		};
+
+
+		$.ajax({
+			type: 'POST',
+			url: '/api/login',
+			contentType: 'application/json',
+			data: JSON.stringify(postData),
+			success: function (data) {
+				showMsg(data.status, data.msg);
+
+				if (data.status == 'success') {
+					//	location.href="/";
+					document.getElementById("1").style.display = "none";
+					document.getElementById("2").style.display = "block";
+
+				}
+				
+
+			},
+			fail: function () {
+				showMsg('danger',"Incorrect Login");
+			}
+		});
+	});
+
+async function verifyotp() {
+
+		
+		if (parseInt(document.getElementById("pak").value) === RandomNumber) {
+			let postData = {
+				email: $('input[name="email"]').val(),
+				password: $('input[name="password"]').val(),
+			};
+			$.ajax({
+				type: 'POST',
+				url: '/api/verifyotp',
+				contentType: 'application/json',
+				data: JSON.stringify(postData),
+				success: function (data) {
+					showMsg(data.status, data.msg);
+
+					if (data.status == 'success') {
+						location.href = "/";
+
+					}
+
+				},
+				fail: function () {
+					showMsg('danger', 'Error has occured');
+				}
+			});
+
+		}
+		else {
+			$('#lert').addClass('alert-danger');
+				$('#lert').text("Incorrect OTP");
+		      
+
+		}
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>

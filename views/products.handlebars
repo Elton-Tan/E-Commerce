@@ -1,0 +1,266 @@
+<style>
+   $bg-color: #f3f3f3;
+$shadow-color: darken( $bg-color, 25%);
+$button-color: #337AB7;
+$button-shadow-color: darken($button-color, 25%);
+$cursive-font: 'Pacifico', cursive;
+$font-size: 18px;
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: $bg-color;
+  overflow-x: hidden;
+}
+
+.product-card {
+  background-color: #fdfefe;
+  max-width: 550px;
+  min-height: 400px;
+  margin: 0 auto;
+  margin-top: 50px;
+  margin-bottom: 150px;
+  box-shadow: 8px 12px 30px $shadow-color;
+  color: #919495;
+  font-weight: normal;
+  text-align: left;
+  font-size: $font-size;
+  position: relative;
+  left:100px;
+}
+
+.product-details {
+  width: 53%;
+  float: left;
+  height: 100%;
+  padding: 30px;
+  h1 {
+    color: #333;
+    font-family: $cursive-font;
+    margin-bottom: 35px;
+  }
+  button {
+    width: 150px;
+    height: 50px;
+    margin-top: 20px;
+    background-color: $button-color;
+    border-radius: 0;
+    color: #fff;
+    box-shadow: 2px 2px 7px $button-shadow-color;
+    &:hover, &:active, &:focus {
+      color: #fff;
+    }
+  }
+}
+
+.product-image {
+  position: absolute;
+  right: 200px;
+  top: 0px;
+  width: 20px;
+  height:20px;
+  img {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 700px) {
+  .product-card {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  
+}
+
+@media (max-width: 540px) {
+  .product-card {
+    overflow: hidden;
+    margin-bottom: 50px;
+
+  }
+  .product-details {
+    width: 60%;
+    z-index: 1;
+  }
+  .product-image {
+    width: 100%;
+    left: 40%;
+    top: -50px;
+  }
+}
+
+@media (max-width: 440px) {
+    .product-details {
+      width: 65%;
+  }
+}
+
+@media (max-width: 365px) {
+    .product-details {
+      width: 80%;
+      position: relative;
+      color: #333;
+      background-color: rgba(255, 255, 255, 0.7);
+  }
+}
+</style>
+<div class="brand">
+    <div class="container">
+        <div class="row  mt-5">
+            <div class="col-md-12">
+                <div class="titlepage text-center">
+                    <h2>Products</h2>
+                </div>
+            </div>
+            <div class="row mb-5 mt-5" style="display:flex;justify-content:right;">
+                <div class="col-sm-3">
+                    <input oninput="filterByBrand()" type="text" placeholder="Search for a Design" class="form-control " style="float:left;"
+                        size="2">
+                </div>
+                <div class="col-sm-3">
+                    <select id="sortby" class="form-control" onchange="sort()">
+                        <option value="1">Filter By Most Popular</option>
+                        <option value="2">Filter By Least Popular</option>
+                        <option value="3">Filter By Most Expensive</option>
+                        <option value="4">Filter By Least Expensive</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="brand-bg mb-5">
+        <div class="container">
+            <div class="row" id="products">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let products = [];
+    function addToCart(id) {
+        let target = event.target;
+        let qty = $(target).siblings('[data-is="qty"]').val();
+        $.ajax({
+            type: 'POST',
+            url: '/api/product/add-to-cart',
+            contentType: 'application/json',
+            data: JSON.stringify({ id: id, qty: qty }),
+            success: function (data) {
+                if (data.status == 'success') {
+                    alert('Product added to cart');
+                    setCartProductsCount();
+                }
+            }
+        })
+    }
+    function loadProducts() {
+        let view = ``;
+        $(products).each(function (index, product) {
+            view += `
+
+
+<div class="product-card" style="align:left;">
+  <div class="product-details">
+    <h1>${product.Name}</h1>
+    <p>${product.Description}</p>
+    <br>
+    <h4 style="color:black;">$ ${product.Price} <h4> <br>
+    <button type="button" class="btn" style="background-color:blue; color:white;" onclick="location.href='/products/${product.id}'" >View Now</button>
+  </div>
+  <div class="product-image" style="width:10%; height:10%;">
+    <img src="http://localhost:5000/uploads/${product.posterUpload}" width="150">
+  </div>
+</div>
+                    `;
+        });
+        $('#products').html(view);
+    }
+    function leastpopularcompare(a, b) {
+        if (a.Popularity > b.Popularity)
+            return 1;
+        else if (a.Popularity < b.Popularity)
+            return -1;
+        else
+            return 0;
+    }
+    function mostpopularcompare(a, b) {
+        if (a.Popularity > b.Popularity)
+            return -1;
+        else if (a.Popularity < b.Popularity)
+            return 1;
+        else
+            return 0;
+    }
+    function mostexpensivecompare(a, b) {
+        if (parseInt(a.Price) > parseInt(b.Price))
+            return -1;
+        else if (parseInt(a.Price) < parseInt(b.Price))
+            return 1;
+        else
+            return 0;
+    }
+    function leastexpensivecompare(a, b) {
+        if (parseInt(a.Price) > parseInt(b.Price))
+            return 1;
+        else if (parseInt(a.Price) < parseInt(b.Price))
+            return -1;
+        else
+            return 0;
+    }
+    function sort() {
+        let sortBy = $('#sortby').find(":selected").val();
+        if (sortBy === "1") {
+            products.sort(mostpopularcompare);
+        } else if (sortBy === "2") {
+            products.sort(leastpopularcompare);
+        } else if (sortBy === "3") {
+            products.sort(mostexpensivecompare);
+        } else if (sortBy === "4") {
+            products.sort(leastexpensivecompare);
+        }
+        loadProducts();
+    }
+    function loadAndSetProducts() {
+        $.ajax({
+            type: 'POST',
+            url: '/api/product/get-all',
+            contentType: 'application/json',
+            success: function (data) {
+                products = [...data];
+                loadProducts();
+            }
+        })
+    }
+    loadAndSetProducts();
+    
+</script>
+<script>
+    function setProfilePic() {
+        $.ajax({
+            type: 'GET',
+            url: '/api/profile/picture',
+            contentType: 'application/json',
+            success: function (data) {
+                if (data.status == 'success') {
+                    if (data.pic !== '' && data.pic !== null && data.pic !== 'null') {
+                        $('#profileimage').attr('src', '/uploads/' + data.pic);
+                    }
+                }
+            }
+        })
+    }
+    setProfilePic();
+    function filterByBrand() {
+        let brand = event.target.value;
+        $('#products .product-details').each(function (i, v) {
+            if ($(v).text().trim().toLowerCase().includes(brand.toLowerCase())) {
+                $(v).parent().show();
+            }
+            else {
+                $(v).parent().hide();
+            }
+        });
+    }
+</script>

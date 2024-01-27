@@ -1,0 +1,377 @@
+<div class="brand">
+    <div class="container">
+        <div class="row mb-5 mt-5">
+            <div class="col-md-12">
+                <div class="titlepage">
+                    <h2>Payment</h2>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+            <form id="3456" action="/api/checkout" method="POST">
+                <div class="row" style="">
+                    <div class="col-6">
+                        <input type="text" class="form-control" name="apartment" placeholder="Apartment Name" /><br />
+
+
+                        <div id="map-container2" class="">
+                            <input id="a321" autocomplete="street-address" class="form-control " name="address"
+                                placeholder="Enter Your Address" /><br />
+                            <div id="map" class="map2"></div>
+                        </div>
+
+                    </div>
+
+
+                    {{#if GiveDiscount}}
+                    <div id="dmenu" class="col-6" id="dmenu">
+                        <h5>Total: <span id="t"></span></h5>
+                        <h5>Discount: <span id="disc"></span></h5>
+                        <h5>Grand Total: <span class="total"></span></h5>
+                    </div>
+                    {{else}}
+                    <div id="dmenu" class="col-6" id="dmenu">
+                        <h5>Grand Total: <span class="total"></span></h5>
+
+                        <br>
+
+                        {{#if isLogin}}
+                        <div class="row" style="margin-bottom: 1.5em;">
+                            <div class="col-6">
+                                <input type="text" class="form-control " placeholder="Discount Code" id="discountcode"
+                                    name="discountcode" />
+                            </div>
+                            <div class="col-6">
+                                <button onClick="applyDiscountCode()" id="discountbtn" type="button"
+                                    class="btn btn-primary ">Apply
+                                    Discount
+                                    Code</button> <br>
+
+
+
+                            </div>
+                            <br>
+                            <a href="/discountcodes" target="_blank">View Discount Codes</a>
+                        </div>
+                        {{/if}}
+                    </div>
+                    {{/if}}
+
+
+
+                </div>
+
+
+
+                <div class="row">
+
+                    <div class="col">
+
+                    </div>
+
+                    <div class="col-5">
+
+                        {{#if isLogin}}
+                        <script src="//checkout.stripe.com/v2/checkout.js" class="stripe-button "
+                            data-key="pk_test_51K5RxAFEICFAuBl4SbdshvQfW8NDvIrtDDjNY75iVT06Ydw3FRe4LYxEQ2koyfH0W2Nfn1f4pXh0oLg56QwsDGEU00jf0demEn"
+                            data-amount="0" data-currency="USD" data-name="Bliss" data-description="Latest Dresses"
+                            data-locale="auto">
+                            </script>
+                        <button type="submit" id="payment1" style="width:100%;" class="btn btn-outline-dark col-4">Pay
+                            </span> <span class="total"></span></button>
+                    </div>
+
+
+                    <div class="col">
+
+
+
+
+                        </script>
+
+                    </div>
+
+
+
+                </div>
+                <div class='row'>
+                    <div class="col"></div>
+                    <form action="/api/paypalorder" method="post">
+                        <script
+                            src="https://www.paypal.com/sdk/js?client-id=AQ7TC_BPjkJ-xbZEZsaez_T6LFej0v9WiYOXZqVZJGn4LLlLZSVpXP5ADV-xxPw5sZcR1J7I_ra9hk5Y&currency=USD&components=buttons&disable-funding=card">\
+                            </script>
+                        <!-- Set up a container element for the button -->
+                        <div class="col-5" style="margin-top: 8px;" id='paypal'></div>
+                    </form>
+
+                    <div class="col"></div>
+                </div>
+
+
+
+            </form>
+
+
+
+            <script>
+
+
+
+                paypal.Buttons({
+                    createOrder: function (data, actions) {
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: {
+                                    value: idk
+                                }
+                            }]
+                        })
+                    },
+                    onApprove: function (data, actions) {
+                        return actions.order.capture().then(function (details) {
+                            // ("transaction completed by "+ details.payer.name.given_name);
+                            console.log('Capture result', details.purchase_units[0].shipping.address, JSON.stringify(details.purchase_units[0].shipping.address, null, 2));
+
+                            var ScreenData = {
+                                id: details.id,
+                                address: details.purchase_units[0].shipping.address
+                            }
+                            console.log(ScreenData);
+
+                            $.ajax({
+                                type: 'POST',
+                                url: 'api/paypalorder',
+                                contentType: 'application/json',
+                                data: JSON.stringify(ScreenData),
+                                success: function (data) {
+                                    location.href = '/thankyou1?id=' + ScreenData.id;
+
+
+
+                                }
+                            });
+
+                        })
+                    }
+
+
+                }).render("#paypal")
+
+
+            </script>
+
+
+
+            {{else}}
+            <button type="button" class="btn btn-primary" onclick="location.href = '/login';">Login to
+                checkout</button>
+            {{/if}}
+        </div>
+
+
+
+
+
+
+
+    </div>
+</div>
+</form>
+</div>
+</div>
+
+</div>
+</div>
+<div class="brand-bg">
+    <div class="container">
+        <div class="row" id="prod4ucts">
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+<script>
+    document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
+</script>
+
+<script>
+    let idk = 0;
+    let grand_total = 0;
+    let discountCode = null;
+    function applyDiscountCode() {
+        discountCode = null;
+        const dcode = document.getElementById('discountcode').value;
+        if (dcode.length < 1)
+            alert("Please Enter Discount Code");
+        else {
+            $.ajax({
+                type: 'POST',
+                url: '/api/applydiscountcode',
+                contentType: 'application/json',
+                data: JSON.stringify({ dcode: dcode }),
+                success: function (data) {
+                    if (data.status === true) {
+                        $('#discountcode').prop("disabled", true);
+                        $('#discountbtn').prop("disabled", true);
+                        let g = grand_total;
+                        const disco = (g * 0.05);
+                        g -= disco;
+                        idk = g;
+                        $('#dmenu').html('<h5>Total: <span id="t">$' + grand_total + '</span></h5><h5> Discount: <span id="disc">(-5%) -$' + disco + '</span></h5><h5>Grand Total: <span class="total">$' + g + '</span></h5>');
+                        $('#payment1').html('Pay ' + g);
+                        discountCode = dcode;
+                    } else {
+                        alert("Invalid Discount Code!");
+                    }
+                }
+            });
+        }
+    }
+
+    function loadAndSetProducts() {
+        $.ajax({
+            type: 'POST',
+            url: '/api/product/get-cart-products',
+            contentType: 'application/json',
+            success: function (data) {
+                console.log(data);
+                let qty = 0;
+                grand_total = 0;
+                let discount = 0;
+                let total = 0;
+
+                let view = ``;
+                $((data.products)).each(function (index, product) {
+
+                    grand_total += parseFloat(product.cartQty) * (parseFloat(product.Price) + parseFloat(product.extraCharges));
+                    idk = grand_total;
+                    view += `
+                        <div class="col-4">
+                               <div class="brand_box" style= "border-style:ridge; border-radius:5px; width:320px;">
+                                   <center>
+                                <img height="200px" src="http://localhost:5000/uploads/${product.posterUpload}" />
+                                <h3 class="mt-3">$<strong class="red">${parseInt(product.Price) + parseInt(product.extraCharges)}</strong></h3>
+                             
+                                <span style="margin-left:1%;">Name: ${product.Name}</span> <span style="padding-left:10%;">Color: ${product.Colour}</span><br>
+                                <span style="margin-left:8%;">Material: ${product.materialName}</span> <span style="padding-left:12%;">Waist: ${product.waist} </span>Inches<br>
+                                <span>Height: ${product.height}</span>cm <span style="padding-left:15%;">Price: $${product.Price}</span><br>
+                                <br> <span>Extra Charges: $${product.extraCharges}</span><br>
+                                
+                                <i><img src="/img/star.png" /></i>
+                                <i><img src="/img/star.png" /></i>
+                                <i><img src="/img/star.png" /></i>
+                                <i><img src="/img/star.png" /></i>
+                                <br>
+                                <input  data-is="qty" type="number" min="1" value="${product.cartQty}" /><br>
+                                <span onclick="addToCart(${product.id})" class="btn btn-primary mt-2">Update</span>
+                                <span onclick="removeFromCart(${product.id})" class="btn btn-danger mt-2">Remove</span>
+                            </center>
+                            </div>
+                        </div>
+                    `;
+
+                });
+                $('#products').html(view);
+                if (data.GiveDiscount) {
+                    $('#t').text('$' + grand_total);
+                    const disco = (grand_total * 0.05);
+                    grand_total -= disco;
+                    idk = grand_total;
+
+                    $('#disc').text('(-5%) -$' + disco);
+                    $('.total').text('$' + grand_total);
+                } else {
+
+                    $('.total').text('$' + grand_total);
+                }
+
+
+            }
+        })
+    }
+    loadAndSetProducts();
+
+    function removeFromCart(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/api/product/remove-from-cart',
+            contentType: 'application/json',
+            data: JSON.stringify({ id: id }),
+            success: function (data) {
+                location.reload();
+            }
+        })
+    }
+
+</script>
+
+<script>
+    function setProfilePic() {
+        $.ajax({
+            type: 'GET',
+            url: '/api/profile/picture',
+            contentType: 'application/json',
+            success: function (data) {
+                if (data.status == 'success') {
+                    if (data.pic !== '' && data.pic !== null && data.pic !== 'null') {
+                        $('#profileimage').attr('src', '/uploads/' + data.pic);
+                    }
+                }
+            }
+        })
+    }
+    setProfilePic();
+
+    function addToCart(id) {
+
+        let target = event.target;
+
+        let qty = $(target).siblings('[data-is="qty"]').val();
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/product/add-to-cart',
+            contentType: 'application/json',
+            data: JSON.stringify({ id: id, qty: qty, exact: true }),
+            success: function (data) {
+                if (data.status == 'success') {
+                    location.reload();
+                }
+            }
+        })
+    }
+
+
+</script>
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSbH11dz0Ic9bzPJZYpOaPj7rZFuuF2_E&callback=initAutocomplete&libraries=places&v=weekly"
+    async></script>
+<script>
+    function initAutocomplete() {
+        var map = new google.maps.Map(document.getElementById('map'), {});
+
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('a321');
+
+        var searchBox = new google.maps.places.SearchBox(input);
+
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function () {
+            searchBox.setBounds(map.getBounds());
+        });
+
+    }
+</script>

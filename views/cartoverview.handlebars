@@ -1,0 +1,248 @@
+<div class="brand">
+    <div class="container">
+        <div class="row mb-5 mt-5">
+            <div class="col-md-12">
+                <div class="titlepage">
+                    <h2> Cart overview</h2>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="brand-bg">
+        <div class="container">
+
+            <div class='row'>
+                <div class="col align-self-center" style="padding: 40px;">
+
+
+                    <table id="" class="table" style="border-radius:0; background-color:white; color:black;">
+                        <thead style="width:500%;">
+                            <tr>
+                                <th style="width:110px;"></th>
+
+                                <th scope="col" class="" style="padding-left:60px;">Name</th>
+
+
+                                <th scope="col" class="" style="padding-left:110px;">Color</th>
+                                <th scope="col" class="" style="padding-left:110px; ">Measurement</th>
+                                <th scope="col" class="" style="width:250px; padding-left:90px;">Material</th>
+                                <th scope="col" class="" style="width:200px; padding-left:40px;">Price</th>
+                                <th scope="col" class="" style="width:430px;">Total</th>
+
+                                <th style="padding-left:50px;"></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row" id="products">
+            </div>
+
+            <div class="row" style="margin-top: 3em; margin-bottom:2em">
+                <div class="col-8">
+
+
+                </div>
+
+                <div class="">
+                    {{#if isLogin}}
+                    <button type="button" onclick="location.href = '/proceedpayment'" class="btn btn-success"
+                        style="float:right; background-color:black;">Proceed To Payment</button>
+                    {{else }}
+                    <button type="button" onclick="location.href = '/login'" class="btn btn-success">Login To Proceed
+                        Payment</button>
+                    {{/if }}
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+
+
+    let grand_total = 0;
+    let discountCode = null;
+    function applyDiscountCode() {
+        discountCode = null;
+        const dcode = document.getElementById('discountcode').value;
+        if (dcode.length < 1)
+            alert("Please Enter Discount Code");
+        else {
+            $.ajax({
+                type: 'POST',
+                url: '/api/applydiscountcode',
+                contentType: 'application/json',
+                data: JSON.stringify({ dcode: dcode }),
+                success: function (data) {
+                    if (data.status === true) {
+                        $('#discountcode').prop("disabled", true);
+                        $('#discountbtn').prop("disabled", true);
+                        let g = grand_total;
+                        const disco = (g * 0.05);
+                        g -= disco;
+                        $('#dmenu').html('<h5>Total: <span id="t">$' + grand_total + '</span></h5><h5> Discount: <span id="disc">(-5%) -$' + disco + '</span></h5><h5>Grand Total: <span id="total">$' + g + '</span></h5>');
+                        discountCode = dcode;
+                    } else {
+                        alert("Invalid Discount Code!");
+                    }
+                }
+            });
+        }
+    }
+    function loadAndSetProducts() {
+        $.ajax({
+            type: 'POST',
+            url: '/api/product/get-cart-products',
+            contentType: 'application/json',
+            success: function (data) {
+                console.log(data);
+                let qty = 0;
+                grand_total = 0;
+                let discount = 0;
+                let total = 0;
+                let view = ``;
+                $((data.products)).each(function (index, product) {
+
+                    grand_total += parseFloat(product.cartQty) * (parseFloat(product.Price) + parseFloat(product.extraCharges));
+                    var mar = 200 + (200 * (index + 1));
+                    var actualmar = mar + 'px';
+                    view += `
+                                           <div class='row'>
+    <div class="col align-self-center" style="padding: 40px;">
+
+
+        <table id="" class="table" style="border-radius:0; background-color:white; color:black;">
+
+            <tbody>
+
+                <tr>
+                    <td style="width:120px; background-color=" red" "> <img height=" 75px"
+                        src="http://localhost:5000/uploads/${product.posterUpload}" />
+                    <div id="bg"
+                        style="filter: none;position:absolute;top: 0;width: 90px;height: 90px; mix-blend-mode:hue;margin-top:${actualmar}; background-color:${product.colors}">
+                        </td>
+                        <td class="" style=""> ${product.Name}</td>
+                        <td class="" style="width:170px; padding-left:40px;">${product.colors}</td>
+
+
+                        <td style="padding-left:40px;"> Waist: ${product.waist} </span>Inches<br> Height:
+                            ${product.height} cm, Cup & Band Size: ${product.cupsize}, Shoulder Size: ${product.shouldersize}  </td>
+                        <td class="" style="padding-left:40px;">${product.materialName} + $${product.extraCharges}</td>
+                        <td style="padding-left:30px;">$${product.Price}</td>
+                        <td class="account-table-td" style="padding-left:50px;">
+                            <p class="mt-3">
+                            <div class="" style="margin-top:-14px;">$${parseInt(product.Price) +
+                        parseInt(product.extraCharges)}</div>
+                            </p>
+                        </td>
+
+
+                        <td style="padding-left: 0px;"><button type="button"
+                                onclick="addToCart(${product.id},'${product.colors}',${product.materialId},${product.waist},${product.height})"
+                                class=""
+                                style="width:20px;height:27px;color:white;background-color:gray;">+</button><input
+                                data-is="qty" type="number" min="1" value="${product.cartQty}"
+                                style="width:50px; text-align:center; margin-top:5px; margin-left:5px;" /><button
+                                onclick="addToCart1(${product.id},'${product.colors}',${product.materialId},${product.waist},${product.height})"
+                                style="width: 20px; height: 27px; padding: 0; color: black; background - color: gray; margin-left:5px;"
+                                type="button" class="">-</button></td>
+
+                        <td style=""> <span
+                                onclick="removeFromCart(${product.id},'${product.colors}',${product.materialId},${product.waist},${product.height})"
+                                class="btn btn-danger mt-2" style="font-size:12px;">Remove</span></td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+                    `;
+
+                });
+                $('#products').html(view);
+                if (data.GiveDiscount) {
+                    $('#t').text('$' + grand_total);
+                    const disco = (grand_total * 0.05);
+                    grand_total -= disco;
+                    $('#disc').text('(-5%) -$' + disco);
+                    $('#total').text('$' + grand_total);
+                } else {
+                    $('#total').text('$' + grand_total);
+                }
+
+
+            }
+        })
+    }
+    loadAndSetProducts();
+
+    function removeFromCart(id, colors, materialId, waist, height) {
+        $.ajax({
+            type: 'POST',
+            url: '/api/product/remove-from-cart',
+            contentType: 'application/json',
+            data: JSON.stringify({ id: id, colors: colors, materialId: materialId, waist: waist, height: height }),
+            success: function (data) {
+                location.reload();
+            }
+        })
+    }
+
+</script>
+
+<script>
+
+
+    function addToCart(id, colors, materialId, waist, height) {
+
+        let target = event.target;
+
+        let qty = parseInt($(target).siblings('[data-is="qty"]').val()) + 1;
+        $(target).siblings('[data-is="qty"]').val = qty;
+        $.ajax({
+            type: 'POST',
+            url: '/api/product/add-to-cart',
+            contentType: 'application/json',
+            data: JSON.stringify({ id: id, qty: qty, exact: true, colors: colors, materialId: materialId, waist: waist, height: height }),
+            success: function (data) {
+                if (data.status == 'success') {
+                    location.reload();
+                }
+            }
+        })
+    }
+    function addToCart1(id, colors, materialId, waist, height) {
+
+        let target = event.target;
+        if (parseInt($(target).siblings('[data-is="qty"]').val()) - 1 <= 0) {
+            return;
+        }
+        let qty = parseInt($(target).siblings('[data-is="qty"]').val()) - 1;
+        $(target).siblings('[data-is="qty"]').val = qty;
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/product/add-to-cart',
+            contentType: 'application/json',
+            data: JSON.stringify({ id: id, qty: qty, exact: true, colors: colors, materialId: materialId, waist: waist, height: height }),
+            success: function (data) {
+                if (data.status == 'success') {
+                    location.reload();
+                }
+            }
+        })
+    }
+
+
+</script>

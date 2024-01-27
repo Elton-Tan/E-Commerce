@@ -1,0 +1,18 @@
+<div class='row'>
+	<div class='col-md-6 mx-auto'>
+		<div class='alert alert-success'>Thank You For Donation!</div>
+		<div class="card border-primary mb-2 w-100 mx-auto">
+			<div class="card-header">
+				<h5 class="card-title">Donation Details</h5>
+			</div>
+			<div class="card-body">
+				<p class="font-italic">Quantity: 1</p>
+				<p class="font-italic">Material: {{Material}}</p>
+				<p class="font-italic"><b>Thank you for your donation! We will pick up your dress within the next 3 days. Do read your email for more information!</b></p>
+				{{#each Images}}
+				<img width="200px" src="/uploads/{{this}}" />
+				{{/each}}
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,90 @@
+<div class='row'>
+  <div class='col-md-6 mx-auto'>
+    <div class='card card-body'>
+      <left>
+    
+      </left>
+      <h3 class='text-center'>Contact Us</h3>
+      {{#if success}}
+        <div class='alert alert-success'>{{msg}}</div>
+      {{/if}}
+      {{!-- Displays dive with {{error_msg}} if error_msg is valid --}}
+      {{#if fail}}
+        <div class='alert alert-danger'>{{msg}}</div>
+      {{/if}}
+      <form id="form" action='/api/contact' method='post'>
+        <div class='form-group'>
+          <br>
+          <label for='subject'>File a Support Ticket   </label>
+          <hr>
+          <center>
+         
+           </center>
+           <br>
+          <input type='text' class='form-control' name='subject' value='' placeholder= 'What is the Issue?' required />
+        </div>
+        <div class='form-group'>
+          
+          <input type='text' class='form-control' name='tid' value="{{tid}}" style="display: none;"  />
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <textarea class="textarea form-control" name="message" placeholder="Please Describe Your Issue to Us."  style= "height:200%; " required></textarea>
+            <br>
+            </div>
+         
+            <p style="font-size:13px; color:black; font-weight:2; margin-top:15%;">Our support will try our best to extend our aid to you within 48 hours. Thank you for your patience!</p> 
+        
+        </div>
+        <br />
+        <div style= "float:left; margin-top:-2%;">
+         <a href="/contact-tickets" style="margin-top:10px; float:right;">View My Tickets</a>
+         </div>
+        <div style="float:right;">
+        <button class="btn btn-success" style="width:105%; background-color:blue;">Submit</button>
+        </div>
+        
+      </form>
+      <br>
+      <center>
+        <img class='logo' src='/img/BlissLogo2.png' style="height:7%; width:7%;"/> 
+        </center>
+    </div>
+    <br>
+   
+  </div>
+</div>
+<script>
+    function setProfilePic()
+    {
+        $.ajax({
+            type:'GET',
+            url:'/api/profile/picture',
+            contentType:'application/json',
+            success:function(data)
+            {   
+               if(data.status == 'success')
+               {    
+                   if(data.pic !== '' && data.pic !== null && data.pic !== 'null')
+                   {
+                       $('#profileimage').attr('src','/uploads/'+data.pic);
+                   }
+               }
+            }
+        })
+    }
+    setProfilePic();
+    function setCartProductsCount(){
+        $.ajax({
+            type:'POST',
+            url:'/api/product/get-cart-products',
+            contentType:'application/json',
+            success:function(data)
+            {
+               $('#cart-badge').text(data.length);
+            }
+        })
+    }
+    setCartProductsCount();
+</script>

@@ -1,0 +1,254 @@
+<div class="row">
+  {{> _admin-sidebar }}
+  <div class="col-sm-12 col-md-10">
+    <div class="card card-body">
+      <h3 style="padding-bottom:15px;">Edit Product Information</h3>
+
+      <form id="form" action="#" method="post">
+        <input type="hidden" name="_method" value="PUT">
+        <div class="form-group">
+          <label class="font-italic" for="Brand">Category:</label>
+
+          <div class="col-12 radio" style="padding-top:7px;">
+            {{#ifEquals product.Brand "Bags"}}
+            <label style="padding-left:5px;" class='checkbox-inline'><input onclick="" value="Bags" id="" type="radio"
+                name="category" checked>
+              Bags
+            </label>
+            {{else}}
+            <label style="padding-left:5px;" class='checkbox-inline'><input onclick="" value="Bags" id="" type="radio"
+                name="category">
+              Bags
+            </label>
+            {{/ifEquals}}
+            {{#ifEquals product.Brand "Classic Dress"}}
+            <label style="margin-left: 20px;" class='checkbox-inline'><input onclick="" value="Dress" id="" type="radio"
+                name="category" checked>
+              Dress
+            </label>
+            {{else}}
+            <label style="margin-left: 20px;" class='checkbox-inline'><input onclick="" value="Dress" id="" type="radio"
+                name="category">
+              Dress
+            </label>
+            {{/ifEquals}}
+            {{#ifEquals product.Brand "Gown"}}
+            <label style="margin-left: 20px;" class='checkbox-inline'><input onclick="" value="Gown" id="" type="radio"
+                name="category" checked>
+              Gown
+            </label>
+            {{else}}
+            <label style="margin-left: 20px;" class='checkbox-inline'><input onclick="" value="Gown" id="" type="radio"
+                name="category">
+              Gown
+            </label>
+            {{/ifEquals}}
+
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="font-italic" for="Name">Name</label>
+          <input type="text" class="form-control" name="name" value="{{product.dataValues.Name}}" required>
+        </div>
+        <div class="form-group">
+          <label class="font-italic" for="posterUpload">Image</label>
+          <div class="font-weight-bold text-danger small" id="posterErr">
+            <input onchange="uploadImage()" type="file" id="posterUpload" name="posterUpload"
+              accept="image/png, image/jpeg,image/jpg,image/gif" value="{{product.posterUpload}}">
+          </div>
+          {{#if product.dataValues.posterUpload}}
+          <img id="poster" src="/uploads/{{product.dataValues.posterUpload}}" alt=""
+            class="border img-thumbnail img-fluid" height="auto" width="100px">
+          {{else}}
+          <img id="poster" src="/img/no-image.jpg" alt="" class="border img-thumbnail img-fluid" height="auto"
+            width="100px">
+          {{/if}}
+        </div>
+
+
+        <div class="form-group">
+          <label class="font-italic" for="Price">Price</label>
+          <input type="number" class="form-control" name="price" value="{{product.dataValues.Price}}" required>
+        </div>
+        <div class="form-group mb-4">
+          <label class="font-italic" for="Description">Description</label>
+          <textarea class="form-control" id="Description" name="description" rows="7"
+            required>{{product.dataValues.Description}}</textarea>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+              <label class="font-italic">Color</label>
+              <br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="blackcolor" id="blackColour" value="Black"
+                  {{product.blackColour}}>
+                <label class="form-check-label" for="blackColour">Black</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="whitecolor" id="whiteColour" value="White"
+                  {{product.whiteColour}}>
+                <label class="form-check-label" for="whiteColour">White</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="redcolod" id="redColour" value="Red"
+                  {{product.redColour}}>
+                <label class="form-check-label" for="redColour">Red</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="goldcolor" id="goldColour" value="Gold"
+                  {{product.goldColour}}>
+                <label class="form-check-label" for="goldColour">Gold</label>
+              </div>
+              <p class="font-weight-bold text-info" id="ColourErr" style="display:none">Please select one
+                Colour</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+
+            </div>
+          </div>
+        </div>
+        <br>
+        <button id="butAddVideo" type="submit" class="btn btn-primary">Save
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  var image = `{{product.dataValues.posterUpload}}`;
+
+
+  function uploadImage() {
+    let file = $('input[name="posterUpload"]')[0].files[0];
+
+    let formData = new FormData();
+
+    formData.append('image', file);
+
+
+    $.ajax({
+      type: 'POST',
+      url: '/api/upload/image',
+      cache: false,
+      contentType: false,
+      processData: false,
+      data: formData,
+      success: function (response) {
+        image = response.file;
+        $('#poster').attr('src', 'http://localhost:5000/uploads/' + image);
+      }
+    });
+
+  }
+
+  function showMsg(type, msg) {
+    $('#alert').removeClass('alert-success');
+    $('#alert').removeClass('alert-danger');
+
+    if (type == 'success') {
+      $('#alert').addClass('alert-success');
+    }
+    else {
+      $('#alert').addClass('alert-danger');
+    }
+
+    $('#alert').text(msg);
+  }
+
+  document.getElementById('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+
+    let color = '';
+    let storage = '';
+    let category = '';
+
+    if ($('input[name="blackcolor"]').is(':checked')) {
+      color = 'Black';
+    }
+
+    if ($('input[name="whitecolor"]').is(':checked')) {
+      color = 'White';
+    }
+
+    if ($('input[name="redcolor"]').is(':checked')) {
+      color = 'Red';
+    }
+
+    if ($('input[name="goldcolor"]').is(':checked')) {
+      color = 'Gold';
+    }
+
+
+    if ($('input#sixtyfourStorage').is(':checked')) {
+      storage = '64GB';
+    }
+
+    if ($('input#onetwoeightStorage').is(':checked')) {
+      storage = '128GB';
+    }
+
+    if ($('input#twofivesixStorage').is(':checked')) {
+      storage = '256GB';
+    }
+
+
+
+
+    if ($('input[name="bags"]').is(':checked')) {
+      category = 'Bags';
+    }
+
+    if ($('input[name="classic dress"]').is(':checked')) {
+      category = 'Classic Dress';
+    }
+
+    if ($('input[name="gown"]').is(':checked')) {
+      category = 'Gown';
+    }
+
+    if (category === '') {
+      alert('Please select a category')
+      return;
+    }
+
+
+
+    let postData = {
+      brand: category,
+      name: $('input[name="name"]').val(),
+      stock: $('input[name="stock"]').val(),
+      price: $('input[name="price"]').val(),
+      description: $('textarea[name="description"]').val(),
+      color: color,
+      storage: storage,
+      image: image
+    };
+
+
+
+    $.ajax({
+      type: 'POST',
+      url: '/api/admin/product/update/' + {{ product.dataValues.id }},
+    contentType: 'application/json',
+    data: JSON.stringify(postData),
+    success: function (data) {
+      showMsg(data.status, data.msg);
+
+      location.href = '/admin/product/list';
+
+    },
+    fail: function () {
+      showMsg('danger', 'Error has occured');
+    }
+    });
+
+
+  });
+
+</script>

@@ -1,0 +1,101 @@
+<div class="row">
+
+    {{> _admin-sidebar }}
+    <div class="col-sm-12 col-md-10">
+        {{#if success}}
+        <div class="alert alert-success">{{msg}}</div>
+        {{/if}}
+
+        {{!-- Displays dive with {{error_msg}} if error_msg is valid --}}
+        {{#if fail}}
+        <div class="alert alert-danger">{{msg}}</div>
+        {{/if}}
+        <div class="mb-5">
+            <center>
+                <h1>Inventory Management</h1>
+            </center>
+        </div>
+        <div oninput="searchOrders()" class="col-xs-12 col-sm-4" style="margin-bottom: 20px;">
+            <input type="text" placeholder="Search..." class="form-control">
+        </div>
+        <table id="materials" class="table">
+            <thead>
+                <tr>
+                    <th scope="col" class="account-table-th">MaterialID</th>
+                    <th scope="col" class="account-table-th">Material</th>
+                    <th scope="col" class="account-table-th">Cost</th>
+                    <th scope="col" class="account-table-th">Quantity</th>
+                    <th scope="col" class="account-table-th">Material Status</th>
+                    <th scope="col" class="account-table-th">Edit Page</th>
+                    <th scope="col" class="account-table-th">Delete</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {{#each materials}}
+                <tr>
+
+                    <td class="account-table-td">{{this.id}}</td>
+                    <td class="account-table-td">{{this.Name}}</td>
+                    <td class="account-table-td">{{this.ExtraPrice}}</td>
+                    <td class="account-table-td">{{this.Qunatity}}</td>
+                    <td class="account-table-td">{{this.lowonmaterial}}</td>
+
+                    <td class="account-table-td"><button class="btn btn-primary"
+                            onclick="location.href = '/admin/editmaterial/{{this.id}}';">Edit</button></td>
+                    <td class="account-table-td"><button class="btn btn-primary" style="background-color:red"
+                            onclick="delMat({{this.id}})">Delete</button></td>
+
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        <button onclick="location.href = '/admin/addmaterial';" type="button" class="btn btn-primary"
+            style="float:right">Add Material</button>
+
+    </div>
+</div>
+<script>
+    function delMat(id) {
+        const r = confirm("Delete Material? This Action Cannot Be Undone!");
+        if (r == true) {
+            $.ajax({
+                type: 'POST',
+                url: '/api/delMaterial',
+                contentType: 'application/json',
+                data: JSON.stringify({ id: id }),
+                success: function (data) {
+                    if (data.success) {
+                        alert("Material Deleted Successfully!");
+                        location.href = '/admin/inventory';
+                    } else {
+                        alert("Invalid Deleting Material!");
+                    }
+                }
+            });
+        }
+    }
+    function searchOrders() {
+        let value = event.target.value;
+
+        $('#materials tbody tr').each(function (i, row) {
+
+
+            if ($(row).text().toLowerCase().includes(value.toLowerCase())) {
+                $(row).show();
+            }
+            else {
+                $(row).hide();
+            }
+
+        });
+    }
+
+    window.onload = function () {
+
+
+        document.getElementById('togglee').style.visibility = 'hidden';
+    }
+
+</script>

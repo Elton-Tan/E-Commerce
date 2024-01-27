@@ -1,0 +1,147 @@
+<div class='row'>
+  <div class='col-md-6 mx-auto'>
+    <div class='card card-body'>
+      <img class='logo' src='/img/logo.png' />
+      <h3 class='text-center'>Account Register</h3>
+      <div id="alert" class='alert'></div>
+      <form id="form" action='/api/register' method='post'>
+        <div class='form-group'>
+          <label for='name'>First Name</label>
+          <input type='text' class='form-control' name='fname' value='' required />
+        </div>
+        <div class='form-group'>
+          <label for='name'>Last Name</label>
+          <input type='text' class='form-control' name='lname' value='' required />
+        </div>
+        <div class='form-group'>
+          <label for='name'>Date of Birth</label>
+          <input type='date' class='form-control' name='dob' value='' required />
+        </div>
+        <div class='form-group'>
+          <label for='name'>Address</label>
+          <div id="map-container2" class="">
+            <input id="pac-input" name="address" class="form-control controls" type="text" placeholder="Enter Address">
+                <div id="map" class="map2"></div>
+</div>
+        </div>
+           
+
+
+        <div class='form-group'>
+          <label for='email'>Email</label>
+          <input type='email' name='email' class='form-control' value='' required />
+        </div>
+        <div class='form-group'>
+          <label for='password'>Password</label>
+          <input id="password" type='password' name='password' class='form-control' value='' required />
+        </div>
+        <div class='form-group'>
+          <label for='password2'>Confirm Password</label>
+          <input type='password' name='password2' class='form-control' value='' required />
+        </div>
+        <div class='g-recaptcha' data-sitekey='6LexEkMbAAAAANIpct-U9mU1eLT_iSM-l5xZXH0B'></div>
+        {{#if captcha}}
+          <div class='alert alert-danger'>{{msg}}</div>
+        {{/if}}
+        <br />
+        <button class='btn btn-success'>Register</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+
+   function showMsg(type,msg)
+    {
+      $('#alert').removeClass('alert-success');
+      $('#alert').removeClass('alert-danger');
+
+      if(type == 'success')
+      {
+         $('#alert').addClass('alert-success');
+      }
+      else
+      {
+        $('#alert').addClass('alert-danger');
+      }
+
+      $('#alert').text(msg);
+    }
+
+	function validPassword(password)
+    {
+        let strongPassword = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})');
+        if(strongPassword.test(password))
+        {
+            return true;
+        }
+        return false;
+    }
+	document.getElementById('form').addEventListener('submit',function(e){
+    e.preventDefault();
+		let password = document.getElementById('password').value;
+
+
+		let isValid = validPassword(password);
+
+		if(!isValid)
+		{			
+      showMsg('danger','Password must contain, 8 characters, 1 upper case 1 lower case letter with a number and a special character');
+      return;
+		}
+
+   
+    let postData = {
+      fname:$('input[name="fname"]').val(),
+      lname:$('input[name="lname"]').val(),
+      dob:$('input[name="dob"]').val(),
+      address:$('input[name="address"]').val(),
+      email:$('input[name="email"]').val(),
+      password:$('input[name="password"]').val(),
+      password2:$('input[name="password2"]').val(),
+      captcha:grecaptcha.getResponse()
+    };
+
+
+    $.ajax({
+      type:'POST',
+      url:'/api/register',
+      contentType:'application/json',
+      data:JSON.stringify(postData),
+      success:function(data){
+        showMsg(data.status,data.msg);
+      },
+      fail:function(){
+        showMsg('danger','Error has occured');
+      }
+    });
+
+
+	});
+
+</script>
+
+<script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSbH11dz0Ic9bzPJZYpOaPj7rZFuuF2_E&callback=initAutocomplete&libraries=places&v=weekly"
+      async
+    ></script>  
+ <script>
+  function initAutocomplete() {
+    var map = new google.maps.Map(document.getElementById('map'), {});
+
+    // Create the search box and link it to the UI element.
+    var input = document.getElementById('pac-input');
+   
+    var searchBox = new google.maps.places.SearchBox(input);
+ 
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+   
+
+    // Bias the SearchBox results towards current map's viewport.
+    map.addListener('bounds_changed', function() {
+      searchBox.setBounds(map.getBounds());
+    });
+
+  }
+    </script>

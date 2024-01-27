@@ -1,0 +1,52 @@
+<div class='row'>
+  <div class='col-md-6 mx-auto'>
+      {{#if success}}
+        <div class='alert alert-success'>{{msg}}</div>
+      {{/if}}
+      {{!-- Displays dive with {{error_msg}} if error_msg is valid --}}
+      {{#if fail}}
+        <div class='alert alert-danger'>{{msg}}</div>
+      {{/if}}
+      <h3 class='text-center'>FAQ</h3>
+        {{#each faq_data}}
+            <div class="card border-primary mb-2 w-100 mx-auto">
+				<div class="card-header">
+					<h5 class="card-title">{{this.dataValues.question}}</h5>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-12 col-md-12 col-lg-3">
+							<p class="font-italic">Answer</p>
+							<p class="text-info">
+								{{this.dataValues.answer}}
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+        {{/each}}
+  </div>
+</div>
+<script>
+    function setProfilePic()
+    {
+        $.ajax({
+            type:'GET',
+            url:'/api/profile/picture',
+            contentType:'application/json',
+            success:function(data)
+            {   
+               if(data.status == 'success')
+               {    
+                   if(data.pic !== '' && data.pic !== null && data.pic !== 'null')
+                   {
+                       $('#profileimage').attr('src','/uploads/'+data.pic);
+                   }
+               }
+            }
+        })
+    }
+    setProfilePic();
+
+     
+</script>

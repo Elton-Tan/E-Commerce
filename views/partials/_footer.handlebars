@@ -1,0 +1,308 @@
+<style>
+
+
+/* Button used to open the chat form - fixed at the bottom of the page */
+.open-button {
+  background-color: rgb(19, 185, 83);
+  color: white;
+  padding: 13px 13px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  border-radius: 50%;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+ 
+}
+.open-button:hover {
+  background-color: #ec3131; /* Green */
+  color: white;
+}
+
+/* The popup chat - hidden by default */
+.chat-popup {
+  background-color: rgb(255, 255, 255);
+ 
+  height: 425px;
+  width: 357px;
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+ 
+  border-radius: 4px;
+  z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+}
+
+/* Full-width textarea */
+.form-container textarea {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+  resize: none;
+  min-height: 200px;
+}
+
+/* When the textarea gets focus, do something */
+.form-container textarea:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit/send button */
+.form-container .btn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+</style>
+
+<footer>
+    <button id="togglee" class="open-button" onclick="openForm()"><strong>ChatBot</strong> </button>
+
+<div class="chat-popup" id="myForm">
+    <div class="row container" style="background-color:#553beb; color:white ; margin-left:0px ">
+      <div class="col-8" >
+         <button type="button"  class="btn btn-success " style="background-color: #553beb; border:none " onclick="closeForm()"><strong>Close</strong></button>
+        
+      </div>
+       <div class="col " style="text-align: left;" >
+      
+           </div>
+      </div>
+
+
+     <div class="row" >
+
+             <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <title>Javascript Chat Bot Demo</title>
+    <style>
+        body {
+            color: #333;
+         
+            width:"50px";
+        }
+        #demo {
+            /*background-color: #ffffff;*/
+            width: 94%;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+
+            background-color: #F8F8F8;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px #999;
+            line-height: 1.4em;
+            font: 13px helvetica,arial,freesans,clean,sans-serif;
+            color: black;
+        }
+        #demo input {
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            width: 300px;
+        }
+        .button {
+            display: inline-block;
+            background-color: darkcyan;
+            color: #fff;
+            padding: 8px;
+            cursor: pointer;
+            float: right;
+            margin-top: 4px;
+        }
+        #chatBotCommandDescription {
+            display: none;
+            margin-bottom: 20px;
+        }
+        input:focus {
+            outline: none;
+        }
+        .chatBotChatEntry {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<script src="../js/chatbot.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/chatbot.css" />
+
+<div id="demo">
+    <div id="chatBotCommandDescription"></div>
+    <input id="humanInput" type="text" placeholder="Say something" />
+
+   
+    <div class="button" onclick="$('#chatBotCommandDescription').slideToggle();" style="margin-right:10px">What can I say?</div>
+
+    <div style="clear: both;">&nbsp;</div>
+
+    <div id="chatBot">
+        <div id="chatBotThinkingIndicator"></div>
+        <div id="chatBotHistory"></div>
+    </div>
+</div>
+
+
+<script>
+       
+      
+    var config = {
+        botName: 'PomatoBot',
+        inputs: '#humanInput',
+        inputCapabilityListing: true,
+        engines: [ChatBot.Engines.duckduckgo()],
+        addChatEntryCallback: function(entryDiv, text, origin) {
+            entryDiv.delay(200).slideDown();
+        }
+    };
+
+
+ 
+        $.ajax({
+            type: 'POST',
+            url: '/chatbot',
+            contentType: 'application/json',
+            data: JSON.stringify({ data:"chatbot" }),
+            success: function (a) {
+                console.log(a);
+               ChatBot.init(config);
+    ChatBot.setBotName("Promato");
+    ChatBot.addPattern("Hi", "response", "Howdy, friend", undefined, "Say 'Hi' To Promato");
+    ChatBot.addPattern("Bye", "response", "See you later buddy", undefined, "Say 'Bye' to end the conversation.");
+     ChatBot.addPattern("Still need help", "response", "http://localhost:5000/contact", undefined, "FAQ:: 'Still need help'.");
+  
+              a.map((value,index)=>{
+
+          ChatBot.addPattern(value.question, "response",value.answer, undefined, `FAQ ::'${value.question}'`);
+
+              })  ;
+            }
+        });
+
+   
+  
+   
+   
+   
+
+</script>
+
+
+
+
+
+
+
+
+
+     </div> 
+   
+
+   
+   
+
+   
+      
+     
+</div>
+    <div id="contact" class="footer">
+        <div class="container-fluid">
+            <div class="row footer-container">
+                <div class="col-md-4 col-sm-12 footer-address">
+                    <h3>Address</h3>
+                    <span style="display: block;">Ang Mo Kio, 176 Street, Singapore, AMK 543321, Singapore</span>
+                    <span style="display: block;">(+65) 8123 4567</span>
+                    <span style="display: block;">bliss@gmail.com</span>
+                </div>
+                <div class="col-md-4 col-sm-12 footer-social-media">
+                    <ul class="footer-social-media-list">
+                        <li class="footer-social-media-list-item">
+                            <a href="#"><i class="fab fa-facebook footer-social-icon"></i></a>
+                        </li>
+
+                        <li class="footer-social-media-list-item">
+                            <a href="#"><i class="fab fa-twitter footer-social-icon"></i></a>
+                        </li>
+                        <li class="footer-social-media-list-item">
+                            <a href="#"><i class="fab fa-instagram footer-social-icon"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4 col-sm-12 footer-navigation">
+                    <ul class="footer-navigation-list">
+                  
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            
+            <div class="container">
+                <p>© 2021 All Rights Reserved. </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+  
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+
+
+    function setCartProductsCount(){
+        $.ajax({
+            type:'POST',
+            url:'/api/product/get-cart-products',
+            contentType:'application/json',
+            success:function(data)
+            {     
+                
+                let qty = 0;
+                    
+                $(data.products).each(function(index,product){
+                        console.log(product);
+                    qty += parseInt(product.cartQty);
+                    
+                });
+
+                
+               $('#cart-badge').text(qty);
+            }
+        })
+    }
+    setCartProductsCount();
+</script>

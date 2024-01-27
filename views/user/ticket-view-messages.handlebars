@@ -1,0 +1,87 @@
+<div class='row'>
+  <div class='col-md-6 mx-auto'>
+    <div class='card card-body'>
+      <img class='logo' src='/img/BlissLogo2.png' />
+      <h3 class='text-center'>Ticket Messages</h3>
+      <h4>Subject: {{subject}}</h4>
+      {{#if success}}
+        <div class='alert alert-success'>{{msg}}</div>
+      {{/if}}
+      {{!-- Displays dive with {{error_msg}} if error_msg is valid --}}
+      {{#if fail}}
+        <div class='alert alert-danger'>{{msg}}</div>
+      {{/if}}
+
+
+      {{#each ticket_data}}
+        
+        
+        <div class="user-message">
+          <p><b>Message Submitted By:</b> {{this.dataValues.added_by}}</p>
+          <p><b>Message: </b> {{this.dataValues.message}}</p>
+        </div>   
+      {{/each}}
+
+      
+      
+      <form id="form" action='/api/submit-contact' method='post'>
+        <br>
+        <div>
+          <div class="col-md-6">
+            <input type="text" name="tid" style="display: none;" value="{{ticket_no}}">
+          </div>
+          <div class="col-md-6">
+            <input type="text" name="subject" style="display: none;" value="{{subject}}">
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <textarea class="textarea form-control" name="message" placeholder="Message" required></textarea>
+            </div>
+        </div>
+        <br />
+        
+        <button class="btn btn-success">Reply</button>
+
+      </form>
+
+      
+      
+    </div>
+  </div>
+</div>
+
+
+<script>
+    function setProfilePic()
+    {
+        $.ajax({
+            type:'GET',
+            url:'/api/profile/picture',
+            contentType:'application/json',
+            success:function(data)
+            {   
+               if(data.status == 'success')
+               {    
+                   if(data.pic !== '' && data.pic !== null && data.pic !== 'null')
+                   {
+                       $('#profileimage').attr('src','/uploads/'+data.pic);
+                   }
+               }
+            }
+        })
+    }
+    setProfilePic();
+    function setCartProductsCount(){
+        $.ajax({
+            type:'POST',
+            url:'/api/product/get-cart-products',
+            contentType:'application/json',
+            success:function(data)
+            {
+               $('#cart-badge').text(data.length);
+            }
+        })
+    }
+    setCartProductsCount();
+</script>

@@ -1,0 +1,55 @@
+<div class="row">
+    {{> _admin-sidebar }} 
+
+    <div class="col-sm-12 col-md-10">
+        {{#if success}} 
+				<div class="alert alert-success">{{msg}}</div> 
+			{{/if}} 
+			
+			{{!-- Displays dive with {{error_msg}} if error_msg is valid --}} 
+			{{#if fail}} 
+				<div class="alert alert-danger">{{msg}}</div> 
+			{{/if}}
+        
+
+        {{#each ticket_data}}
+        
+        <div class="col-md-12 user-message">
+          <p><b>Message Submitted By:</b> {{this.dataValues.added_by}}</p>
+          <p><b>Message: </b> {{this.dataValues.message}}</p>
+        </div>   
+      {{/each}}
+
+      <form id="form" action='/api/submit-admin-contact' method='post'>
+
+        <br>
+        <div>
+          <div class="col-md-6">
+            <input type="text" name="tid" style="display:none ;" value="{{ticket_no}}">
+          </div>
+          <div class="col-md-6">
+            <input type="text" name="subject" style="display: none;" value="{{subject}}">
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <textarea class="textarea form-control" name="message" placeholder="Message" required></textarea>
+            </div>
+        </div>
+        <br />
+        
+        <button class="btn btn-success">Reply</button>
+
+      </form>
+
+    </div>
+</div>
+<script>
+    window.onload= function () {
+
+		  
+ document.getElementById('togglee').style.visibility = 'hidden';
+	  }
+	  
+  </script>
+

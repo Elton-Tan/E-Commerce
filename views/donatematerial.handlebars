@@ -1,0 +1,115 @@
+<style>
+body {
+    background-image: url("img/ecofriendly");
+}
+.btn3 {
+    background: linear-gradient(to bottom, #cbcbcb 2%, #fff 100%);
+    margin-top: 60px;
+    margin-left: 140px;
+    padding: 15px 30px;
+    text-align: center;
+    transition: .5s;
+    border: none;
+    outline: none;
+    text-transform: uppercase;
+    color: #1b1b1b;
+    font-size: 20px;
+    font-weight: 700;
+    border-radius: 30px;
+    box-shadow: 1px 4px 12px rgba(94,28,68,.15);
+}
+.pepsi {
+    display: flex;
+    height: 100%;
+    position: absolute;
+    width: 600px;
+    margin-top: 80px;
+    padding-left: 440px;
+    justify-content: flex-end;
+}
+</style>
+<div class="container" style="margin-top: 3em;">
+    <form action="/api/donatematerial" enctype="multipart/form-data" method="post">
+
+     <div class="content">
+            <div class="text">
+            <h1>Trade in Today, Save Tomorrow, <br> <span>Fight Climate Change</span></h1>
+            <br>
+            <p>Bliss welcomes old dresses for new ones. <br> <br> <br> Send your old dresses to us today and get <br> <span style="font-size:30px; font-weight:3;">5% discount </span>for your next one-time purchase!
+            </p>
+     
+           </div>
+        
+       </div>
+       
+       <br> 
+       
+       <hr>
+        <div class="row">
+            <div class='col-3'>
+             Number of Dresses to Donate : 
+            </div>
+            <div class='col-2'>
+                <input id="qty" name="qty" type="number" min="1" value="1" class="form-control" size="1"
+                    style='Height:2em; width:25%;' disabled />
+            </div>
+                   <div class="row " style="margin-top: 4em;">
+            <div class='col-3'>
+                Material Of The Dress :
+
+            </div>
+            <div class='col-2'>
+                <select name="materials" id="materials" class="form-control">
+                    {{#each material}}
+                    <option value="{{this.Name}}">{{this.Name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class='col-3'>
+            </div>
+           <br><br>
+            <div class='col-3'>
+                <label for="img" style="padding-right:20%;">Select Dress Image:</label>
+                  <input onchange="readURL(this);" type="file" id="img" name="img" accept="image/*" multiple required>
+                </div>
+           <br><br>
+        </div>
+        <br><br>
+    <div class="row" style="margin-top: 0px; margin-left:-35%;">
+     
+
+            <div class="col-8">
+            </div>
+
+            <div class="col">
+                <button type="submit" class='btn btn-primary' style="width:125%; margin-top:10%;">Proceed to Trade-In</button>
+            </div>
+
+
+        </div>
+
+
+
+            <div class='col' id="gallery">
+
+            </div>
+        </div>
+
+        
+
+
+
+
+
+    </form>
+
+</div>
+
+
+
+
+
+
+
+</div>
+

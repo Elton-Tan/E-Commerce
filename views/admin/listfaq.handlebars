@@ -1,0 +1,78 @@
+<style>
+	.btn2 {
+		background-color: #4eb5f1;
+		text-align: center;
+		display: inline-block;
+		padding: 0.3em 1.2em;
+		margin: 0 0.3em 0.3em 0;
+		border-radius: 2em;
+		box-sizing: border-box;
+		font-family: 'Roboto', sans-serif;
+		font-weight: 300;
+		color: #FFFFFF;
+		text-align: center;
+		transition: all 0.2s;
+	}
+	.btn2:hover {
+		background-color: #4095c6;
+		text-decoration: none;
+	}
+	.search-form {
+		position: absolute;
+		top: 1;
+		right: 0;
+		margin: 5px auto;
+		margin-right: 20px;
+	}
+</style>
+<div class="row">
+	{{> _admin-sidebar }}
+	<div class="col-sm-12 col-md-10">
+		<div class="container">
+			{{#if faqs}}
+			<div class="card card-body">
+				<h3 class="text-primary">FAQs</h3>
+				<a href="/admin/faq/add" class="btn2">Add FAQ</a>
+				{{#each faqs}}
+				<div class="card border-primary mb-2 w-100 mx-auto">
+					<div class="card-header">
+						<h5 class="card-title">{{question}}</h5>
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-sm-12 col-md-12 col-lg-3">
+								<p class="font-italic">Answer</p>
+								<p class="text-info">
+									{{answer}}
+								</p>
+							</div>
+						</div>
+						<a href="/admin/faq/edit/{{id}}" class="card-link">Edit</a>
+						<a href="/admin/faq/delete/{{id}}" class="card-link" data-toggle="confirmation"
+							data-title="Confirm delete?">
+							<i class="far fa-trash-alt"></i>
+							Delete
+						</a>
+					</div>
+				</div>
+				{{/each}}
+			</div>
+		</div>
+		{{else}}
+		<h3>No FAQ Added</h3>
+		<a href="/admin/faq/add" class="btn2">Add FAQ</a>
+		{{/if}}
+	</div>
+</div>
+<script>
+  window.onload= function () {
+
+		  
+ document.getElementById('togglee').style.visibility = 'hidden';
+	  }
+	  
+
+
+</script>
+
+

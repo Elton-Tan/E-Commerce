@@ -1,0 +1,116 @@
+<div class="row">
+    {{> _admin-sidebar }}
+    <div class="col-sm-12 col-md-10">
+        <div class="col-8"></div>
+        <div class="col-4">
+            <h3>ADD Material</h3>
+        </div>
+
+
+
+
+
+
+        <div class="row" style="margin-top:3em;">
+
+            <div class="col-4">
+                <label for="fname">Material Name :</label><br>
+                <input class="form-control" type="text" id="mm"><br>
+
+
+            </div>
+            <div class="col-4">
+                <label for="fname">Quantity :</label><br>
+                <input class="form-control" type="number" id="qq"><br>
+
+
+            </div>
+
+            <div class="col-4">
+                <label for="fname">Cost :</label><br>
+                <input class="form-control" type="number" id="cc"><br>
+
+
+            </div>
+
+
+
+        </div>
+
+
+        <div class="row" style="margin-top: 3em;">
+            <div class="col-9"></div>
+            <div class="col">
+                <button class="form-control btn btn-primary" onclick="addMaterial()">Add Material</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    function addMaterial() {
+
+        if (document.getElementById("mm").value === "") {
+
+            alert("please Enter Material");
+            return;
+        }
+        if (document.getElementById("qq").value === "") {
+
+            alert("please Enter Qunatity");
+            return;
+        }
+        if (document.getElementById("cc").value === "") {
+
+            alert("please Enter Cost");
+            return;
+        }
+
+        var ScreenData = {
+            material_name: document.getElementById("mm").value,
+            quantity: parseInt(document.getElementById("qq").value),
+            cost: parseInt(document.getElementById("cc").value)
+
+
+
+        }
+
+
+        $.ajax({
+            type: 'POST',
+            url: '/addmaterials',
+            contentType: 'application/json',
+            data: JSON.stringify({ ScreenData }),
+            success: function (data) {
+
+                alert('Successfully Added');
+
+
+
+            }
+        })
+
+
+
+
+
+
+
+
+
+
+    }
+
+   window.onload= function () {
+
+		  
+ document.getElementById('togglee').style.visibility = 'hidden';
+	  }
+	  
+
+
+</script>

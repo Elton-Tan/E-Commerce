@@ -1,0 +1,176 @@
+<div class="row">
+    
+         <div  style="block ; background-color">
+            
+
+
+
+
+
+         </div>
+
+
+
+
+
+
+    
+    {{> _admin-sidebar }} 
+    <div class="col-sm-12 col-md-10">
+        {{#if success}} 
+				<div class="alert alert-success">{{msg}}</div> 
+			{{/if}} 
+			
+			{{!-- Displays dive with {{error_msg}} if error_msg is valid --}} 
+			{{#if fail}} 
+				<div class="alert alert-danger">{{msg}}</div> 
+			{{/if}}
+
+
+            
+
+        <table class="table">
+            <thead>
+                <tr>
+                    
+                    <th scope="col" class="account-table-th">First Name</th>
+                    <th scope="col" class="account-table-th">Last Name</th>
+                    <th scope="col" class="account-table-th">Date Of Birth</th>
+                    <th scope="col" class="account-table-th">Address</th>
+                    <th scope="col" class="account-table-th">Email</th>
+                    <th scope="col" class="account-table-th">Password</th>
+                    <th scope="col" class="account-table-th">Verified?</th>
+                    <th scope="col" class="account-table-th">Suspended</th>
+                     <th scope="col" class="account-table-th">Reason</th>
+                    <th scope="col" class="account-table-th">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {{#each user_data}}
+                <tr>
+                    
+                    <td class="account-table-td">{{this.dataValues.first_name}}</td>
+                    <td class="account-table-td">{{this.dataValues.last_name}}</td>
+                    <td class="account-table-td">{{this.dataValues.date_of_birth}}</td>
+                    <td class="account-table-td">{{this.dataValues.address}}</td>
+                    <td class="account-table-td">{{this.dataValues.email}}</td>
+                    <td class="account-table-td">****</td>
+                    <td class="account-table-td">{{#if this.dataValues.is_active}}YES {{else}} NO {{/if}}</td>
+                      <td class="account-table-td">{{#if this.dataValues.IsSuspend}}YES {{else}} NO {{/if}}</td>
+                       <td class="account-table-td"> {{this.dataValues.Reason}} </td>
+                    <td class="account-table-td"  >
+                        
+                        <a href="/admin/update-user?id={{this.dataValues.id}}" class="btn btn-primary">Update</a>
+                        
+                        {{#if this.dataValues.IsSuspend}}<button  onclick="unsusfunction(event)"     style="margin-top: 2px;"  class="unsuspend btn btn-danger" data-id="{{this.dataValues.id}}">unsuspend</button>{{else}} 
+                        <button type="button" style="margin-top: 2px;"  class="suspend btn btn-danger" onclick="susfunction(event)" data-toggle="modal" data-target="#exampleModalCenter" data-id="{{this.dataValues.id}}">Suspend</button>{{/if}}  
+                         
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+
+
+</div>
+<script>
+      window.onload= function () {
+
+		  
+ document.getElementById('togglee').style.visibility = 'hidden';
+	  }
+	  
+    $('.delete-user').on('click',function(){
+			var confirmation = confirm("Do you want to delete ? ");
+			if(confirmation==true){
+				var id = $(this).attr("data-id");
+				location.href = '/api/admin/user/delete?id='+id;
+			}
+		});
+
+function susfunction (event){
+
+  let text = prompt("Please Enter Reason", "");
+  let ids=event.target.getAttribute("data-id");
+  if (text === null || text === "") {
+        return;
+  } else {
+      
+           var ScreenData={
+                reason:text,
+                id:ids
+
+
+           } 
+           console.log(ScreenData);
+         $.ajax({
+            type: 'POST',
+            url: '/suspend',
+            contentType: 'application/json',
+            data: JSON.stringify( ScreenData ),
+            success: function (data) {
+
+                  location.reload();
+
+
+
+            }
+            
+            
+        });
+
+
+
+  }
+
+
+}
+
+function unsusfunction (event){
+  
+  let textt = prompt("Please Enter Reason", "");
+  let idss= event.target.getAttribute("data-id");
+  if (textt === null || textt === "") {
+        return;
+  } else {
+      
+           var ScreenData={
+                reason:textt,
+                id:idss
+
+
+           } 
+           console.log(ScreenData);
+         $.ajax({
+            type: 'POST',
+            url: '/unsuspend',
+            contentType: 'application/json',
+            data: JSON.stringify( ScreenData ),
+            success: function (data) {
+
+                  location.reload();
+
+
+
+            }
+            
+            
+        });
+
+
+
+  }
+
+
+}
+
+
+
+</script>
+

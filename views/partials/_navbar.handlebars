@@ -1,0 +1,73 @@
+<nav class='navbar navbar-expand-lg navbar-light'>
+  <a class='navbar-brand' href='/' style="margin-right:2%">
+    <img src='/img/logo1.png' alt='' style="width:75px; height:60px; margin-left:5%;" />
+  </a>
+  <div class='container-fluid'>
+    <button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent'
+      aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation'>
+      <span class='navbar-toggler-icon'></span>
+    </button>
+    <div class='collapse navbar-collapse' id='navbarSupportedContent'>
+      <ul class='navbar-nav me-auto mb-2 mb-lg-0 '>
+        <li class='nav-item'>
+          <a class="nav-link {{#if active_home}}active{{/if}}" aria-current='page' href='/'>HOME</a>
+        </li>
+        <li class='nav-item'>
+          <a class='nav-link ' href='/products'>PRODUCTS</a>
+        </li>
+
+        <li class='nav-item'>
+          <a class='nav-link ' href='/donatematerial'>TRADE IN</a>
+        </li>
+
+        <li class='nav-item dropdown'>
+          <a class='nav-link dropdown-toggle  {{#if active_support}}active{{/if}} ' href='#' id='navbarDropdown'
+            role='button' data-bs-toggle='dropdown' aria-expanded='false'>
+            SUPPORT
+          </a>
+          <ul class='dropdown-menu' aria-labelledby='navbarDropdown'>
+            <li><a class='dropdown-item' href='/contact'>CONTACT US</a></li>
+            <li><a class='dropdown-item' href='/faq'>FAQ</a></li>
+
+          </ul>
+        </li>
+        
+        <li class='nav-item'>
+          <a class='nav-link' href='/donated'>My Trade-Ins</a>
+        </li>
+     
+        <li class='nav-item'>
+          <a class='nav-link' href='/orders'>Orders</a>
+        </li>
+    
+      
+    
+        
+        
+      </ul>
+      <form class='d-flex align-items-center'>
+        {{#if isLogin}}
+
+        <a href="/shopping-cart" class="cart"><img width="30" src="/img/cart.png">&nbsp; <span id="cart-badge"
+            class="cart-badge">0</span></a>
+        <a href="/profile"><img id="profileimage" width="50" height="50"
+            style="margin-right: 10px;margin-left:10px;cursor:pointer;object-fit:cover;border-radius:1000px;"
+            src="/img/user-default.png"></a>
+        <a href='/logout' class='btn btn-primary' type='submit'>Logout</a>
+        {{else}}
+
+        <a href="/shopping-cart" class="cart"><img width="30" src="/img/cart.png">&nbsp; <span id="cart-badge"
+            class="cart-badge">0</span></a>
+        <a href='/login' class='btn btn-primary' type='submit'>Login & Register</a>
+        {{/if}}
+
+      </form>
+    </div>
+  </div>
+  <script>
+
+
+
+
+  </script>
+</nav>

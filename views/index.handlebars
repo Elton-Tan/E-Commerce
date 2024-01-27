@@ -1,0 +1,321 @@
+<style>
+   $bg-color: #f3f3f3;
+$shadow-color: darken( $bg-color, 25%);
+$button-color: #337AB7;
+$button-shadow-color: darken($button-color, 25%);
+$cursive-font: 'Pacifico', cursive;
+$font-size: 18px;
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: $bg-color;
+  overflow-x: hidden;
+}
+
+.product-card {
+  background-color: #fdfefe;
+  max-width: 550px;
+  min-height: 400px;
+  margin: 0 auto;
+  margin-top: 50px;
+  margin-bottom: 150px;
+  box-shadow: 8px 12px 30px $shadow-color;
+  color: #919495;
+  font-weight: normal;
+  text-align: left;
+  font-size: $font-size;
+  position: relative;
+
+}
+
+.product-details {
+  width: 53%;
+  float: left;
+  height: 100%;
+  padding: 30px;
+  h1 {
+    color: #333;
+    font-family: $cursive-font;
+    margin-bottom: 35px;
+  }
+  button {
+    width: 150px;
+    height: 50px;
+    margin-top: 20px;
+    background-color: $button-color;
+    border-radius: 0;
+    color: #fff;
+    box-shadow: 2px 2px 7px $button-shadow-color;
+    &:hover, &:active, &:focus {
+      color: #fff;
+    }
+  }
+}
+
+.product-image {
+  position: absolute;
+  right: 200px;
+  top: 0px;
+  width: 20px;
+  height:20px;
+  img {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 700px) {
+  .product-card {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  
+}
+
+@media (max-width: 540px) {
+  .product-card {
+    overflow: hidden;
+    margin-bottom: 50px;
+
+  }
+  .product-details {
+    width: 60%;
+    z-index: 1;
+  }
+  .product-image {
+    width: 100%;
+    left: 40%;
+    top: -50px;
+  }
+}
+
+@media (max-width: 440px) {
+    .product-details {
+      width: 65%;
+  }
+}
+
+@media (max-width: 365px) {
+    .product-details {
+      width: 80%;
+      position: relative;
+      color: #333;
+      background-color: rgba(255, 255, 255, 0.7);
+  }
+}
+</style>
+<section class="slider_section">
+    <div id="myCarousel" class="carousel slide banner-main" data-ride="carousel"></div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img style="width: 100%" class="first-slide" src="img/homepage_dress.jpg" alt="First slide">
+            <div class="container">
+                <div class="carousel-caption relative">
+                    <div style="text-align:left; margin-top:-50%; margin-left:-10%;">
+                        <p style="font-size: 40px; font-weight:1;"> FASHION SEASON IS BACK!</p>
+                        <p>Join the trend now with our tailor-made dresses made <br> just for you! </p>
+                        <br>
+                        <a href="products.handlebars"> <button type="button" width="120%" class="shopNow" style="">Shop
+                                Now! </button> </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="/products" role="button" data-slide="prev">
+            <i class='fa fa-angle-left'></i>
+        </a>
+        <a class="carousel-control-next" href="/products" role="button" data-slide="next">
+            <i class='fa fa-angle-right'></i>
+        </a>
+    </div>
+</section>
+<br><br>
+<div class="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-7 col-lg-7 col-md-7 co-sm-l2" style="display:inline-block">
+                <div class="about_box" style="width:150%; height:200%;">
+
+                    <div style="width:50%;">
+                        <h3 style="text-align: left;">Introduction to Bliss</h3>
+                        <br>
+                        <p style="text-align:left;"> Bliss is a fashion website that aims to revolutionise the current
+                            fashion industries by selling
+                            not only beautiful, but also dress made with the highest quality possible. <br> <br>
+                            All our dresses are made with high quality silk, produced and checked by our various
+                            checkpoint in Italy before it is
+                            certified and sold to our dear customers, because at Bliss, things only get better.
+                    </div>
+                </div>
+
+                <div style="padding-bottom: 10%">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="brand">
+    <div class="container">
+        <div class="row mb-5 mt-5">
+            <div class="col-md-12">
+                <div class="titlepage">
+                    <center>
+                        <h2> Our Popular Dresses </h2>
+                    </center>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-5 mt-5">
+            <div class="col-sm-4">
+
+            </div>
+        </div>
+    </div>
+    <div class="brand-bg">
+        <div class="container">
+            <div class="row" id="products" style="margin-left:15%;">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clients mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="titlepage">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clients_red">
+    <div class="container">
+        <div id="testimonial_slider" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ul class="carousel-indicators">
+                <li data-target="#testimonial_slider" data-slide-to="0" class=""></li>
+                <li data-target="#testimonial_slider" data-slide-to="1" class="active"></li>
+                <li data-target="#testimonial_slider" data-slide-to="2" class=""></li>
+            </ul>
+            <!-- The slideshow -->
+            <div class="carousel-inner">
+                <div class="carousel-item">
+                    <div class="testomonial_section">
+                        <div class="full center">
+                        </div>
+                        <div class="full testimonial_cont text_align_center cross_layout">
+                            <div class="cross_inner">
+
+                                <div class="full text_align_center margin_top_30">
+                                    <img src="icon/testimonial_qoute.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item active">
+                    <div class="testomonial_section">
+                        <div class="full center">
+                        </div>
+                        <div class="full testimonial_cont text_align_center cross_layout">
+                            <div class="cross_inner">
+
+                                <div class="full text_align_center margin_top_30">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="testomonial_section">
+                        <div class="full center">
+                        </div>
+                        <div class="full testimonial_cont text_align_center cross_layout">
+                            <div class="cross_inner">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function loadAndSetProducts() {
+        $.ajax({
+            type: 'POST',
+            url: '/api/product/get-top',
+            contentType: 'application/json',
+            success: function (data) {
+                let view = ``;
+                $(data).each(function (index, product) {
+                    view += `
+                          <div class="product-card" style="align:left;">
+  <div class="product-details">
+    <h1>${product.Name}</h1>
+    <p>${product.Description}</p>
+    <br>
+    <h4 style="color:black;">$ ${product.Price} <h4> <br>
+    <button type="button" class="btn" style="background-color:blue; color:white;" onclick="location.href='/products/${product.id}'" >View Now</button>
+  </div>
+  <div class="product-image" style="width:10%; height:10%;">
+    <img src="http://localhost:5000/uploads/${product.posterUpload}" width="150">
+  </div>
+</div>
+                    `;
+                });
+                $('#products').html(view);
+            }
+        })
+    }
+    loadAndSetProducts();
+    function addToCart(id) {
+        let target = event.target;
+        let qty = $(target).siblings('[data-is="qty"]').val();
+        $.ajax({
+            type: 'POST',
+            url: '/api/product/add-to-cart',
+            contentType: 'application/json',
+            data: JSON.stringify({ id: id, qty: qty }),
+            success: function (data) {
+                if (data.status == 'success') {
+                    alert('Product added to cart');
+                    setCartProductsCount();
+                    
+                }
+            }
+        })
+    }
+    function setProfilePic() {
+        $.ajax({
+            type: 'GET',
+            url: '/api/profile/picture',
+            contentType: 'application/json',
+            success: function (data) {
+                if (data.status == 'success') {
+                    if (data.pic !== '' && data.pic !== null && data.pic !== 'null') {
+                        $('#profileimage').attr('src', '/uploads/' + data.pic);
+                    }
+                }
+            }
+        })
+    }
+    setProfilePic();
+    function filterByBrand() {
+        let brand = event.target.value;
+        $('#products .brand_box').each(function (i, v) {
+            if ($(v).text().trim().toLowerCase().includes(brand.toLowerCase())) {
+                $(v).parent().show();
+            }
+            else {
+                $(v).parent().hide();
+            }
+        });
+    }
+</script>

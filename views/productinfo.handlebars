@@ -1,0 +1,340 @@
+<div class="container">
+    <div id="errr" style="display: none;" class="row">
+        <div class="col">
+            <div class="alert alert-danger">Dress design may take an extra 2 weeks as we are low on this material and
+                will require a restock</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-7 col-sm-5 col-md-5" style=" margin-top:2em">
+            <div class="brand_box"
+                style=" margin-left:100px; margin-top: 80px; border:solid 1px; width:70%; border-radius:4px; padding-top:10px;">
+                <center>
+                    <div class="container">
+                        <img height="200px" src="http://localhost:5000/uploads/{{productData.posterUpload}}" />
+                        <div id="bg"
+                            style="filter: none;position:absolute;top: 0;width: 293px;height: 250px; mix-blend-mode:hue; margin-top: 150px;">
+                        </div>
+                    </div>
+
+
+
+                    <div style="padding-bottom:10%;"> </div>
+
+
+            </div>
+
+            <div class='col-3' style="margin-top:5%; margin-left:200px;">
+                <strong> Quantity :</strong>
+                <input id="qty" onchange="chkmat()" type="number" min="1" value="1" class="form-control" size="1"
+                    style="Height:2em; width:75px; text-align:center; margin-left:90px; margin-top:-25px;" />
+            </div>
+            <br />
+            <div class='col-3'>
+                <strong style="margin-left:20px;"> Colors :</strong>
+            </div>
+
+            <div class="col-12 radio">
+                <label style="margin-left: 20px;" class='checkbox-inline'><input onclick="ChangeColor('Red')"
+                        value="Red" id="red" type="radio" name="colorradio">
+                    Red
+                </label>
+                <label style="margin-left: 20px;" class='checkbox-inline'><input onclick="ChangeColor('Yellow')"
+                        value="Yellow" id="yellow" type="radio" name="colorradio">
+                    Yellow
+                </label>
+                <label style="margin-left: 20px;" class='checkbox-inline'><input onclick="ChangeColor('Blue')"
+                        value="Blue" id="blue" type="radio" name="colorradio">
+                    Blue
+                </label>
+                <label style="margin-left: 20px;" class='checkbox-inline'><input onclick="ChangeColor('Green')"
+                        value="Green" id="green" type="radio" name="colorradio">
+                    Green
+                </label>
+                <label style="margin-left: 20px;" class='checkbox-inline'><input onclick="ChangeColor('Violet')"
+                        value="Violet" id="violet" type="radio" name="colorradio">
+                    Violet
+                </label>
+                <label style="margin-left: 20px;" class='checkbox-inline'><input onclick="ChangeColor('Pink')"
+                        value="Pink" id="pink" type="radio" name="colorradio">
+                    Pink
+                </label>
+                <label style="margin-left: 20px;" class='checkbox-inline'><input onclick="ChangeColor('White')"
+                        value="White" id="white" type="radio" name="colorradio">
+                    White
+                </label>
+            </div>
+
+
+            <div class='col-2' style="margin-top:24px; margin-left:-6px;">
+
+            </div>
+            <br>
+
+
+
+
+            <div class='row' style="margin-top:0.5em">
+
+
+
+
+                </center>
+
+
+            </div>
+        </div>
+
+
+        <div class='col-2'>
+        </div>
+        <div class='col' style="margin-top:3em">
+            <div class='row'>
+
+            </div>
+            <br>
+            <div style="margin-right:50px;">
+                <div class='row' style="margin-top:0.5em;">
+                    <div style=" text-align:center; left:-100px;">
+                        <h1 hidden='true' id='actualprice'>{{productData.Price}}</h1>
+                        <span id='brandName'>{{productData.Brand}}</span><br>
+                        <h3><span>{{productData.Name}}</span></h3>
+                        <p class="">$<strong id="price1" class="red">
+                                {{productData.Price}}
+                            </strong></p>
+                    </div>
+
+                    <div style="width:85%;">
+                        <p style='margin-top:0.2em'>{{productData.Description}}</p>
+
+                    </div>
+
+
+                </div>
+                <div class='row' style="margin-top:0.5em">
+                    <script>
+
+                    </script>
+
+                    {{#ifEquals productData.Brand "Classic Dress"}}
+                    <br>
+                    <input id="height" onchange="chkmat()" type="text" placeholder="Enter Dress Length in cm"
+                        class="form-control" size="1"
+                        style='Height:2em; width:43%; text-align:center; margin-left:10px;'>
+                    <input id="waist" type="text" placeholder="Enter Your Waist Size in Inches" class="form-control"
+                        size="0.5" style='Height:2em; width:45%; text-align:center;  margin-left:30px;'>
+                    <br /><br />
+                    <input id="cupsize" type="text" placeholder="Enter Cup Size and Band Size" class="form-control"
+                        size="1" style='Height:2em; width:43%; text-align:center; margin-left:10px;'>
+                    <input id="shoulder" type="text" placeholder="Enter Shoulder Length In CM" class="form-control"
+                        size="0.5" style='Height:2em; width:45%; text-align:center;  margin-left:30px;'>
+                    <br />
+                    <br />
+                    <center><a href="/estimate/{{productData.id}}">Estimate My Measurement</a></center>
+                    {{/ifEquals}}
+                    {{#ifEquals productData.Brand "Gown"}}
+                    <br>
+                    <input id="height" onchange="chkmat()" type="text" placeholder="Enter Dress Length in cm"
+                        class="form-control" size="1"
+                        style='Height:2em; width:43%; text-align:center; margin-left:10px;'>
+                    <input id="waist" type="text" placeholder="Enter Your Waist Size in Inches" class="form-control"
+                        size="0.5" style='Height:2em; width:45%; text-align:center;  margin-left:30px;'>
+                    <br /><br />
+                    <input id="cupsize" type="text" placeholder="Enter Cup Size and Band Size" class="form-control"
+                        size="1" style='Height:2em; width:43%; text-align:center; margin-left:10px;'>
+                    <input id="shoulder" type="text" placeholder="Enter Shoulder Length In CM" class="form-control"
+                        size="0.5" style='Height:2em; width:45%; text-align:center;  margin-left:30px;'>
+                    <br />
+                    <br />
+                    <center><a href="#">Estimate My Measurement</a></center>
+                    {{/ifEquals}}
+                </div>
+                <div class='row' style="margin-top:55px;">
+                    <strong>Select Material</strong>
+
+                </div>
+                <br>
+                <div class='row'>
+                    {{#each extraPrice}}
+                    <div class=" col-4 radio ">
+                        <label class='checkbox-inline'><input onchange="UpdateExtraPrice(event)"
+                                value="{{this.ExtraPrice}}" id={{this.id}} type="radio" name="optradio">
+                            <p id="t{{this.id}}">{{this.Name}}</p>(Extra: ${{this.ExtraPrice}})
+                        </label>
+                    </div>
+                    {{/each}}
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class='col-5' style='margin-left:-10px;'>
+
+        <br>
+
+        <div class='row' style="margin-top:1em;">
+            <div class='col-5' style='margin-left:1.8em'>
+                <br><br>
+
+
+
+            </div>
+
+
+
+
+        </div>
+    </div>
+    <div class='row' style='margin-top:3em'>
+        <div class='col-9'>
+
+        </div>
+        <div class='col'>
+            <a onclick="addToCart({{productData.id}})" class='btn btn-primary' type='submit'
+                style="margin-top:-200px; margin-left:-600px; width:500px;">Add To Cart </a>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script>
+    var extra_charges = 0;
+    var materialName = '';
+    var materialId = -1;
+    let color = '';
+    let allMat = {{{ getObjString extraPrice }}}
+    function chkmat() {
+        if (materialId !== -1) {
+            const qty = parseInt(document.getElementById('qty').value);
+            const height = parseInt(document.getElementById('height').value);
+            const tqty = qty * height;
+            let mqty = 0;
+            for (let i = 0; i < allMat.length; i++) {
+                if (allMat[i].id === materialId) {
+                    mqty = allMat[i].Qunatity;
+                    break;
+                }
+            }
+
+            if (tqty > mqty) {
+                $('#errr').show();
+            } else {
+                $('#errr').hide();
+            }
+        } else {
+            $('#errr').hide();
+        }
+    }
+    function addToCart(id) {
+
+        let branded = document.getElementById('brandName').innerText;
+        let qty = document.getElementById('qty').value;
+
+
+
+        if (branded == 'Classic Dress') {
+            let target = event.target;
+            let wast = document.getElementById('waist').value;
+            let heigh = document.getElementById('height').value;
+            let branded = document.getElementById('brandName').innerText;
+            let cupsize = document.getElementById('cupsize').value;
+            let shoulder = document.getElementById('shoulder').value;
+
+            if (wast === '') {
+                alert('Please Enter Waist');
+                return;
+            }
+            if (color === '') {
+                alert('Please Enter color');
+                return;
+            }
+
+            if (heigh === '') {
+                alert('Please Enter Height');
+                return;
+            }
+
+            if (cupsize === '') {
+                alert("Please Enter Cup Size And Band Size");
+                return;
+            }
+
+            if (shoulder === '') {
+                alert("Please Enter Shoulder Size");
+                return;
+            }
+
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/product/add-to-cart',
+                contentType: 'application/json',
+                data: JSON.stringify({ id: id, qty: qty, waist: wast, colors: color, height: heigh, extraCharges: extra_charges, materialName: materialName, materialId: materialId, cupsize: cupsize, shouldersize: shoulder }),
+                success: function (data) {
+                    if (data.status == 'success') {
+                        setCartProductsCount();
+                        alert('Product added to cart');
+                    }
+                }
+            })
+
+        }
+
+        else {
+            $.ajax({
+                type: 'POST',
+                url: '/api/product/add-to-cart',
+                contentType: 'application/json',
+                data: JSON.stringify({ id: id, qty: qty, waist: 0, colors: color, height: 0, extraCharges: extra_charges, materialName: materialName, materialId: materialId }),
+                success: function (data) {
+                    if (data.status == 'success') {
+                        setCartProductsCount();
+                        alert('Product added to cart');
+                    }
+                }
+            })
+        }
+    }
+
+    function UpdateExtraPrice(e) {
+        console.log(e.target.value);
+        materialId = parseInt(e.target.id);
+        materialName = document.getElementById("t" + e.target.id).innerHTML;
+        var temp = document.getElementById("actualprice").innerHTML.toString();
+        console.log(temp);
+        var pr = parseInt(temp);
+        extra_charges = parseInt(e.target.value);
+        console.log(extra_charges);
+        document.getElementById("price1").innerHTML = pr + extra_charges;
+        chkmat();
+    }
+
+    const bg = document.getElementById("bg");
+    var selectedColor = 0;
+    function ChangeColor(c) {
+        color = c;
+        bg.style.backgroundColor = c;
+    }
+
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: '/api/getmeasurement',
+            contentType: 'application/json',
+            success: function (data) {
+                if (data) {
+                    document.getElementById('height').value = data.length;
+                    document.getElementById('waist').value = data.waist;
+                    document.getElementById('cupsize').value = data.bust;
+                    document.getElementById('shoulder').value = data.shoulder;
+                }
+            }
+        })
+    });
+
+</script>

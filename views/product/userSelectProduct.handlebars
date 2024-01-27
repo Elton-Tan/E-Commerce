@@ -1,0 +1,123 @@
+<style>
+    .hero{
+  width: 100%;
+}
+
+.rows{
+  width:90%;
+  height:100vh;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.col{
+  flex-basis:45%;
+}
+
+.slider{
+    height: 80vh;
+    display: flex;
+}
+
+.Epics img{
+    height: 19vh;
+    margin-bottom: 9px;
+    cursor:pointer;
+}
+
+.preview img{
+  height: 100%;
+}
+
+p{
+    margin-bottom: 20px;
+}
+
+.brand{
+    background: #008000;
+    width: fit-content;
+    color:#fff;
+    padding: 2px 5px;
+}
+
+h2{
+    font-size:45px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.price{
+    color:#fe980f;
+    font-size: 26px;
+    font-weight: bold;
+    padding-top: 10px;
+}
+
+input{
+    width: 30px;
+    border: 1px solid #ccc;
+    font-weight: bold;
+    text-align: center;
+}
+button{
+    color: #fff;
+    font-size: 15px;
+    outline: none;
+    border: 0;
+    border-radius: 5px;
+    background: #fe980f;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+button .fa{
+    margin-right: 10px;
+}
+</style>
+<body>
+    <div class="sproduct">
+        <div class="rows">
+            <div class="col">
+                <div class="slider">
+                    <div class="Epics">
+                        <img src="../../img/{{product.dataValues.posterUpload}}" onclick="clickme(this)">
+                        <img src="../../img/{{product.dataValues.posterUpload2}}" onclick="clickme(this)">
+                        <img src="../../img/{{product.dataValues.posterUpload3}}" onclick="clickme(this)">
+                        <img src="../../img/{{product.dataValues.posterUpload}}" onclick="clickme(this)">
+                    </div>
+                    <div class="preview">
+                        <img src="../../img/{{product.dataValues.posterUpload}}" id="imageBox">
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+
+                <div class="content">
+                    <p class="brand">Brand: {{product.dataValues.Brand}}</p>
+                    <h2>{{product.dataValues.Name}}</h2>
+                    <p class="price">{{product.dataValues.Price}}</p>
+                    <p>{{product.dataValues.Description}}</p>
+                    <p>Colour: <select>
+                        <option>Select Colour</option>
+                        <option>Black</option>
+                        <option>White</option>
+                    </select></p>
+                    <p>Quantity: <input type="number" value="1"> </p>
+                    <button type="button">
+                    <i class="fa fa-shopping-cart">
+                    </i>Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    function clickme(smallImg){
+        var fullImg = document.getElementById("imageBox");
+        fullImg.src = smallImg.src;
+    }
+</script>

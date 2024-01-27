@@ -1,0 +1,24 @@
+<table id="discount-codes" class="table">
+    <thead>
+        <tr>
+            <th scope="col" class="account-table-th">DiscountCode</th>
+            <th scope="col" class="account-table-th">IsClaimed</th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        {{#each discountCodes}}
+        <tr>
+
+            <td class="account-table-td">{{this.DiscountCode}}</td>
+            {{#if this.IsClaimed}}
+            <td class="account-table-td">True</td>
+            {{else}}
+            <td class="account-table-td">False</td>
+            {{/if}}
+
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

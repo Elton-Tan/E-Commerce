@@ -1,0 +1,39 @@
+<div class="row">
+    {{> _admin-sidebar }} 
+
+	<div class="col-sm-12 col-md-10">
+
+		<div class="card card-body">
+		<h3>Add FAQ</h3>
+		<form action="/api/admin/faq/add" method="post" id="addProduct">
+			<div class="form-group">
+				<label class="font-italic" for="question">Question</label>
+				<input type="text" class="form-control" name="question" required>
+			</div>
+
+            <div class="form-group">
+				<label class="font-italic" for="answer">Answer</label>
+				<input type="text" class="form-control" name="answer" required>
+			</div>
+			
+			<br>
+			<button id="butAddVideo" type="submit" class="btn btn-primary">Save
+			</button>
+		</form>
+	</div>
+
+	</div>
+
+    
+</div>
+<script>
+	  window.onload= function () {
+
+		  
+ document.getElementById('togglee').style.visibility = 'hidden';
+	  }
+	  
+	
+	</script>
+
+

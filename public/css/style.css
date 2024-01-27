@@ -1,0 +1,206 @@
+* {
+  margin : 0;
+  padding: 0;
+}
+
+.logo {
+  width : 130px;
+  margin: auto;
+}
+
+
+.form-group
+{
+  margin-bottom: 10px;
+}
+
+.form-group label
+{
+  margin-bottom: 5px;
+}
+
+a
+{
+  text-decoration: none !important;
+}
+
+#Search_bar {
+  padding   : auto;
+  text-align: center;
+  float     : right;
+  position  : absolute;
+  top       : 50%;
+  left      : 50%;
+  transform : translate(-50%, -50%);
+}
+
+.about_box {
+  padding-top: 100px;
+  text-align : center;
+  line-height: 200%;
+}
+
+.form-input {
+  margin-top: 10px;
+}
+
+.contact-submit-btn {
+  padding: 0;
+}
+
+.footer {
+  margin-top: 20px;
+}
+
+.footer-container {
+  background-color: rgb(46, 46, 46);
+  padding         : 30px;
+  text-decoration : none;
+  color           : #fff;
+}
+
+
+.footer-social-media {
+  text-align: center;
+}
+
+.footer-social-media-list {
+  list-style: none;
+  font-size : 40px;
+  text-align: center;
+  padding   : 0;
+}
+
+.footer-social-media-list-item {
+  display: inline-block;
+}
+
+.footer-social-icon {
+  color: #fff;
+}
+
+.footer-social-media-list-item:not(:first-child) {
+  margin-left: 10px;
+}
+
+.footer-navigation {
+  color: #fff;
+}
+
+.footer-navigation-list a {
+  text-decoration: none;
+  color          : #fff;
+}
+
+.footer-navigation-list {
+  list-style: none;
+  padding   : 0;
+}
+
+.copyright {
+  background-color: rgb(81, 81, 236);
+  color           : #fff;
+  text-align      : center;
+}
+
+.copyright p {
+  margin-bottom: 0px;
+}
+
+.sidebar {
+  background-color: #C51A18;
+  color           : #fff;
+  min-height      : 80vh;
+  margin          : 0;
+  padding         : 0;
+}
+
+.sidebar-list {
+  list-style: none;
+}
+
+
+
+.sidebar-item:hover {
+  background-color: #95a5a6;
+}
+
+.sidebar-item-active {
+  background-color: #95a5a6;
+}
+
+.sidebar li a:link,
+.sidebar li a:active,
+.sidebar li a:visited {
+  color          : black;
+  display        : block;
+  text-decoration: none !important;
+  padding        : 10px;
+}
+
+.account-table-th {
+  word-wrap: break-word;
+  max-width: 150px;
+}
+
+.account-table-td {
+  word-wrap: break-word;
+  max-width: 150px;
+}
+
+.user-message {
+  border : 1px solid green;
+  display: inline-block;
+  padding: 10px;
+}
+
+.cart
+{
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+}
+
+.cart-badge
+{
+  background-color:red;
+  color:#fff;
+  border-radius:1000px;
+  width:25px;
+  height:25px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-left:2px;
+  font-size:18px;
+}
+
+.brand_box
+{
+  margin-top: 20px;
+  width:100%;
+}
+
+
+#orders {
+  background-color:lightsalmon;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 7px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.shopNow {
+  padding-left:2%; 
+  padding-right:2%; 
+  padding-top:1%; 
+  padding-bottom:1%;
+  border-radius: 5px;
+}
+.about_img {
+  display:inline-block
+}

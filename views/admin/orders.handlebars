@@ -1,0 +1,206 @@
+<div class="row">
+    {{> _admin-sidebar }}
+
+    <div class="col-sm-12 col-md-10">
+        <div oninput="searchOrders()" class="col-xs-12 col-sm-4" style="margin-bottom: 20px;">
+            <input type="text" placeholder="Search..." class="form-control">
+        </div>
+        <div class="col-sm-12">
+            <h6>Total Orders: {{totalOrders}}</h6>
+            <h6>Total Sale: ${{totalSales}}</h6>
+        </div>
+        <br>
+        <table id="orders" class="table" style="background-color:#c0392b; border-radius:0; padding-right:5%;">
+            <thead>
+                <tr>
+                    <th scope="col" class="account-table-th">IsDelivered</th>
+                    <th scope="col" class="account-table-th">OrderID</th>
+                    <th scope="col" class="account-table-th">Payment ID</th>
+                    <th scope="col" class="account-table-th" style="column-wdith:400px;">Products</th>
+                    <th scope="col" class="account-table-th">Total Price</th>
+                    <th scope="col" class="account-table-th">Discount Price</th>
+                    <th scope="col" class="account-table-th">Grand Total</th>
+                    <th scope="col" class="account-table-th">Customer Email</th>
+                    <th scope="col" class="account-table-th"> Address</th>
+                    <th scope="col" class="account-table-th">Order Date</th>
+                    <th scope="col" class="account-table-th">Status</th>
+                    <th scope="col" class="account-table-th">Actions</th>
+                    <th scope="col" class="account-table-th">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each orders}}
+                <tr>
+                    <td class="account-table-td">
+                        {{#if this.dataValues.IsCanceled}}
+
+                        {{else}}
+                        {{#if this.dataValues.IsDelivered}}
+                        <input id="{{this.id}}" name="checkbox1" onchange="updateOrder({{this.dataValues.id}}, this)"
+                            class="form-check-input" type="checkbox" checked>
+                        {{else}}
+                        <input id="{{this.id}}" name="checkbox1" onchange="updateOrder({{this.dataValues.id}}, this)"
+                            class="form-check-input" type="checkbox">
+                        {{/if}}
+                        {{/if}}
+                    </td>
+                    <td class="account-table-td">{{this.dataValues.id}}</td>
+                    <td class="account-table-td">{{this.dataValues.paymentmethod}}:<br>{{this.dataValues.order_id}}</td>
+                    <td class="account-table-td">{{this.dataValues.order_products}}</td>
+                    <td class="account-table-td">${{this.dataValues.order_price}}</td>
+                    <td class="account-table-td">-${{this.dataValues.DiscountPrice}}</td>
+                    <td class="account-table-td">${{this.dataValues.TotalPrice}}</td>
+                    <td class="account-table-td">{{this.dataValues.order_email}}</td>
+                    <td class="account-table-td">{{this.dataValues.order_address}}</td>
+                    <td class="account-table-td">{{this.dataValues.order_date}}</td>
+
+
+                    {{#if this.dataValues.IsDelivered}}
+                     <td class="account-table-td">Delivered</td>
+                     {{else}}
+                     {{#if this.dataValues.IsCanceled}}
+                        <td class="account-table-td">{{this.dataValues.Reason}}</td>
+                    {{else}}
+                        <td class="account-table-td">Pending</td>
+                    {{/if}}
+                    {{/if}}
+
+                    <td class="account-table-td"> 
+                        {{#if  this.dataValues.IsDelivered }}
+                        <button id="c{{this.id}}"
+                            onclick="cancelOrder({{this.dataValues.id}})" class="btn btn-primary"
+                            style="color:white;background-color :blue;border:none" disabled>Cancel
+                            </button>
+                            {{else}}
+                            <button id="c{{this.id}}"
+                            onclick="cancelOrder({{this.dataValues.id}},{{this.dataValues.IsCanceled}})" class="btn btn-primary"
+                            style="color:white;background-color :blue;border:none">Cancel
+                            </button>
+
+                            {{/if}}
+                    </td>
+
+                    <td class="account-table-td">
+                        {{#if  this.dataValues.IsDelivered }}
+                        <button id="b{{this.id}}" class="btn btn-primary"
+                            style="color:white;background-color:red;border:none" disabled>Delete</button>
+                        {{else}}
+                        <button id="b{{this.id}}" onclick="delOrder({{this.dataValues.id}}, this)"
+                            class="btn btn-primary" style="color:white;background-color:red;border:none">Delete</button>
+                        {{/if}}
+                    </td>
+
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    function delOrder(id, btn) {
+        var r = confirm("Delete Order! This Cannot Be Undone!");
+        if (r === true) {
+            $.ajax({
+                type: 'POST',
+                url: '/api/deleteorder',
+                contentType: 'application/json',
+                data: JSON.stringify({ id: id }),
+                success: function (data) {
+                    if (data.success) {
+                        alert("Order Deleted Successfully!");
+                        $(btn).closest("tr").hide();
+                    } else {
+                        alert("Error Deleting Order!");
+                    }
+                }
+            });
+        }
+    }
+
+    function cancelOrder(id,status){
+
+            if (status==0){
+                var text = prompt("Please Enter Reason");}
+                else{
+                    var text="nil";
+                }
+  if (text != null) {
+   
+ 
+             $.ajax({
+                type: 'POST',
+                url: '/api/cancelorder',
+                contentType: 'application/json',
+                data: JSON.stringify({ id: id ,reason:text,status:status }),
+                success: function (data) {
+                    
+                        location.reload();
+                
+                 
+                }
+            });
+
+        }
+
+        }
+
+
+
+    function updateOrder(id, status) {
+        if (status.checked) {
+            $.ajax({
+                type: 'POST',
+                url: '/api/updateorder',
+                contentType: 'application/json',
+                data: JSON.stringify({ id: id, status: 1 }),
+                success: function (data) {
+                    if (data.success) {
+                        alert("Order Updated Successfully!");
+                        document.getElementById('b' + status.id).disabled = true;
+                        document.getElementById('c' + status.id).disabled = true;
+                    } else {
+                        alert("Error Updating Order!");
+                    }
+                }
+            });
+        } else {
+            $.ajax({
+                type: 'POST',
+                url: '/api/updateorder',
+                contentType: 'application/json',
+                data: JSON.stringify({ id: id, status: 0 }),
+                success: function (data) {
+                    if (data.success) {
+                        alert("Order Updated Successfully!");
+                        document.getElementById('b' + status.id).disabled = false;
+                        document.getElementById('c' + status.id).disabled = false;
+                    } else {
+                        alert("Error Updating Order!");
+                    }
+                }
+            });
+        }
+    }
+    function searchOrders() {
+        let value = event.target.value;
+
+        $('#orders tbody tr').each(function (i, row) {
+
+
+            if ($(row).text().toLowerCase().includes(value.toLowerCase())) {
+                $(row).show();
+            }
+            else {
+                $(row).hide();
+            }
+
+        });
+    }
+
+    window.onload = function () {
+
+
+        document.getElementById('togglee').style.visibility = 'hidden';
+    }
+
+</script>

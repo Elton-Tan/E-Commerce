@@ -1,0 +1,127 @@
+<div class="row">
+    {{> _admin-sidebar }}
+    <div class="col-sm-12 col-md-10">
+
+        <div class="row">
+            <div class="col-3">
+
+
+            </div>
+            <div class="col-3">
+                <center>
+                <h3>Edit Material</h3>
+                </center>
+
+            </div>
+        </div>
+
+
+        <div class="row" style="margin-top: 4em; margin-left:2em">
+            <div class="col-3">
+                <label for="fname">Select Material :</label><br>
+                <select onChange="getExistsing()" label="select Material" name="materials" id="mm" class="form-control">
+                    {{#each material}}
+                    <option value="{{this.id}}">{{this.Name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="col-3">
+                <label for="fname">Quantity :</label><br>
+                <input id="qq" name="qty" type="number" min="1" value="1" class="form-control" size="1"
+                    style='Height:2.5em' />
+            </div>
+
+            <div class="col-3">
+                <label for="fname">Cost($) :</label><br>
+                <input id="cc" name="qty" type="number" min="1" value="1" class="form-control" size="1"
+                    style='Height:2.5em' />
+            </div>
+
+        </div>
+
+        <div class="row" style="margin-top: 4em;">
+            <div class="col-8">
+                <h3 id="lom" style="color:red;margin-left:20px">Low on Material</h3>
+            </div>
+            <div class="col">
+                <button class="form-control btn btn-primary" onclick="updateMaterial()">Update Material</button>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+      window.onload= function () {
+
+		  
+ document.getElementById('togglee').style.visibility = 'hidden';
+	  }
+	  
+
+    let materials = {{{ getObjString material }}};
+    function getExistsing() {
+        const e = document.getElementById('mm').value;
+        for (let i = 0; i < materials.length; i++) {
+            if (parseInt(materials[i].id) === parseInt(e)) {
+                document.getElementById('cc').value = materials[i].ExtraPrice;
+                document.getElementById('qq').value = materials[i].Qunatity;
+                if (materials[i].Qunatity < 500) {
+                    $('#lom').show();
+                } else {
+                    $('#lom').hide();
+                }
+            }
+        }
+    }
+    $(document).ready(getExistsing());
+    function updateMaterial() {
+
+        if (document.getElementById("mm").value === "") {
+
+            alert("please Enter Material");
+            return;
+        }
+        if (document.getElementById("qq").value === "") {
+
+            alert("please Enter Qunatity");
+            return;
+        }
+        if (document.getElementById("cc").value === "") {
+
+            alert("please Enter Cost");
+            return;
+        }
+
+        var ScreenData = {
+            material_id: parseInt(document.getElementById("mm").value),
+            quantity: parseInt(document.getElementById("qq").value),
+            cost: parseInt(document.getElementById("cc").value)
+
+
+
+        }
+        console.log(ScreenData)
+
+        $.ajax({
+            type: 'POST',
+            url: '/editmaterials',
+            contentType: 'application/json',
+            data: JSON.stringify({ ScreenData }),
+            success: function (data) {
+
+                alert('Successfully Updated');
+
+
+
+            }
+        });
+
+    }
+
+
+
+
+</script>

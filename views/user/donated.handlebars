@@ -1,0 +1,104 @@
+<div class="row">
+    <div class="col-sm-12 col-md-10">
+        {{#if success}}
+        <div class="alert alert-success">{{msg}}</div>
+        {{/if}}
+
+        {{!-- Displays dive with {{error_msg}} if error_msg is valid --}}
+        {{#if fail}}
+        <div class="alert alert-danger">{{msg}}</div>
+        {{/if}}
+        {{!-- <div oninput="searchOrders()" class="col-xs-12 col-sm-4" style="margin-bottom: 20px;">
+            <input type="text" placeholder="Search..." class="form-control">
+        </div> --}}
+        <table id="donations" class="table" style="padding-left:100px; margin-left:50px;">
+            <thead>
+                <tr>
+                    <th scope="col" class="account-table-th">IsRecieved</th>
+                    <th scope="col" class="account-table-th">ID</th>
+                    <th scope="col" class="account-table-th">CustomerID</th>
+                    <th scope="col" class="account-table-th">CustomerName</th>
+                    <th scope="col" class="account-table-th">CustomerEmail</th>
+                    <th scope="col" class="account-table-th">Material</th>
+                   
+                    <th scope="col" class="account-table-th">Image</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {{#each donations}}
+                <tr>
+
+                    <td class="account-table-td">
+                        {{#if this.IsReceived}}
+                         YES
+                        {{else}}
+                        NO
+                        {{/if}}
+                    </td>
+                    <td class="account-table-td">{{this.id}}</td>
+                    <td class="account-table-td">{{this.CustomerID}}</td>
+                    <td class="account-table-td">{{this.Username}}</td>
+                    <td class="account-table-td">{{this.CustomerEmail}}</td>
+                    <td class="account-table-td">{{this.Material}}</td>
+               
+                    <td class="account-table-td">
+                        {{#each (splitString this.Images)}}
+                        <a href="/uploads/{{this}}"><img src="/uploads/{{this}}" width="100px" /></a>
+                        {{/each}}
+                    </td>
+
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+      
+
+    </div>
+</div>
+<script>
+    function searchOrders() {
+        let value = event.target.value;
+
+        $('#donations tbody tr').each(function (i, row) {
+
+
+            if ($(row).text().toLowerCase().includes(value.toLowerCase())) {
+                $(row).show();
+            }
+            else {
+                $(row).hide();
+            }
+
+        });
+    }
+    function update() {
+        let updateInfo = [];
+        $('#donations tbody tr').each(function (i, row) {
+
+            let id = parseInt(($(row).find('td')[1]).innerHTML);
+            let customerId = parseInt(($(row).find('td')[2]).innerHTML);
+            let email = ($(row).find('td')[4]).innerHTML;
+            let recieved = $($(row).find('td')[0]).find('input')[0].checked;
+            updateInfo.push({ id: id, IsReceived: recieved, customerId: customerId, email: email });
+
+        });
+        $.ajax({
+            type: 'POST',
+            url: '/api/updatedonationinfo',
+            contentType: 'application/json',
+            data: JSON.stringify(updateInfo),
+            success: function (data) {
+                console.log(data);
+                if (data.success)
+                    alert("Donation Details Updated!");
+            }
+        });
+    }
+      window.onload= function () {
+
+		  
+ document.getElementById('togglee').style.visibility = 'hidden';
+	  }
+	  
+</script>

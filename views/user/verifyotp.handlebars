@@ -1,0 +1,32 @@
+<div class="row">
+	<div class="col-md-6 mx-auto">
+		<div class="card card-body">
+		
+			<h3 class="text-center"> VERIFY OTP</h3>
+            <p style="text-align: center;">An OTP Is Sent To Your Email Account Please Enter OTP TO Login To Your Account.... </p>
+			 <div id="alert" class='alert'></div>
+			
+			<form id="form" method="post" action="/api/loginn"> 
+			 <br>
+			  <center>
+				
+				<div class="form-group">
+					<label for="password" style="float:left; margin-left:13px;; margin-right:-150px; width:200px;" >Enter Code: </label>
+                    
+				
+					<span style= "display: block; overflow:hidden; width:49%; padding-left:-10%;">
+					<input type="text" name="password" class="form-control" required>
+					</span>
+			
+				
+				</div>
+					</center>
+					<br>
+					<center>
+				<button type="submit" class="btn btn-primary" style="width:40%;">Login</button>
+				</center>
+			</form>
+			
+		</div>
+	</div>
+</div>
